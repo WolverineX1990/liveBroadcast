@@ -1,0 +1,20 @@
+{
+  "name": "livebroadcast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.ts",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/node": "^10.3.6",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2"
+  },
+  "scripts": {
+    "start": "ts-node app.ts",
+    "tsc": "tsc",
+    "test": "ts-node test/index.ts"
+  },
+  "author": "zcj",
+  "license": "MIT"
+}
