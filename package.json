@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.ts",
   "dependencies": {
+    "ws": "^7.1.2"
   },
   "devDependencies": {
     "@types/node": "^10.3.6",
