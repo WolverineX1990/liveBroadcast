@@ -5,7 +5,7 @@ export default class Wss {
     ws: null
     constructor(host) {
         this.host = host;
-        // this.init();
+        this.init();
     }
     init () {
         const ws = new WebSocket(this.host);

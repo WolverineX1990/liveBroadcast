@@ -1,5 +1,5 @@
 import Wss from './wss';
-import { getHtml } from './utils';
+import { getHtml } from './../utils';
 
 export default class Huya {
     wss = null
