@@ -1,4 +1,5 @@
 import { getWssHosts } from './../api/service';
+import LiveLaunchReq from './../HUYA/LiveLaunchReq';
 import Wup from './../Taf/Wup';
 
 let wup = new Wup();
