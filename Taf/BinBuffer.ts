@@ -18,10 +18,25 @@ class BinBuffer {
     }
   }
 
+  get length() {
+    return this.len;
+  }
+
+  get buffer() {
+    return this.buf;
+  }
+
   getBuffer() {
     var t = new ArrayBuffer(this.len);
     new Uint8Array(t).set(new Uint8Array(this.buf,0,this.len));
     return t
+  }
+
+  writeUInt32 (t) {
+    this.allocate(4);
+    this.vew.setUint32(this.position, t);
+    this.position += 4;
+    this.len = this.position
   }
 
   writeString (t) {
@@ -32,6 +47,10 @@ class BinBuffer {
     new Uint8Array(this.buf).set(new Uint8Array(e), this.position);
     this.position += e.length;
     this.len = this.position
+  }
+
+  _write (t, e, i) {
+    return t.writeBytes(e, i)
   }
 
   writeInt16 = function(t) {
@@ -84,8 +103,13 @@ class BinBuffer {
     }
     var e = new ArrayBuffer(Math.max(256, t * 2));
     if (this.buf != null) {
+      try {
         new Uint8Array(e).set(new Uint8Array(this.buf));
-        this.buf = undefined
+        this.buf = undefined; 
+      } catch (error) {
+        new Uint8Array(e).set(new Uint8Array(this.buf));
+        this.buf = undefined;
+      }
     }
     this.buf = e;
     this.vew = undefined;

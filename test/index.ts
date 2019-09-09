@@ -1,14 +1,5 @@
-import { getWssHosts } from './../api/service';
-import LiveLaunchReq from './../HUYA/LiveLaunchReq';
-import Wup from './../Taf/Wup';
+import getWssHosts from './getWssHosts';
+import getCookies from './getCookies';
 
-let wup = new Wup();
-wup.setServant("liveui");
-wup.setFunc("doLaunch");
-wup.writeStruct("tReq", t);
-let buf = wup.encode().getBuffer();
-// getWssHosts({}).then(res => {
-//   console.log(res);
-// }, err => {
-//   console.log(err)
-// })
+// getWssHosts();
+getCookies();

@@ -12,8 +12,8 @@ class Wup {
   sFuncName= ''
   sBuffer= new BinBuffer()
   // iTimeout: 0
-  // context: new Map(new STRING(), new STRING())
-  // status: new Map(new STRING(), new STRING())
+  context= new Map(new STRING(), new STRING())
+  status= new Map(new STRING(), new STRING())
   data= new Map(new STRING,new Map(new STRING, new BinBuffer))
   newdata= new Map(new STRING(),new BinBuffer ())
   constructor() {
@@ -37,7 +37,7 @@ class Wup {
         var r = this.data.get(t);
         var n = " ";
         if (r == undefined) {
-            var s = new Taf.Map(Taf.STRING,Taf.STRING);
+            var s = new Map(STRING, STRING);
             r = s
         }
         r.put(n, new Uint8Array(i.getBuffer()));

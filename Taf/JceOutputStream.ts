@@ -5,14 +5,15 @@ class JceOutputStream {
   buf: BinBuffer= new BinBuffer();
   writeStruct(t, e) {
     if (e.writeTo == undefined) {
-        throw Error("not defined writeTo Function")
+      console.log(e.constructor)
+      throw Error("not defined writeTo Function")
     }
     this.writeTo(t, DataHelp.EN_STRUCTBEGIN);
     e.writeTo(this);
     this.writeTo(0, DataHelp.EN_STRUCTEND)
   }
 
-  writeString = function(t, e) {
+  writeString (t, e) {
     var i = e;
     try {
         i = unescape(encodeURIComponent(i))
@@ -27,7 +28,7 @@ class JceOutputStream {
     this.buf.writeString(i)
   }
 
-  writeBytes = function(t, e: BinBuffer) {
+  writeBytes (t, e: BinBuffer) {
     this.writeTo(t, DataHelp.EN_SIMPLELIST);
     this.writeTo(0, DataHelp.EN_INT8);
     this.writeInt32(0, e.len);
@@ -52,10 +53,13 @@ class JceOutputStream {
 
   writeMap (t, e) {
     this.writeTo(t, DataHelp.EN_MAP);
+    if (!e) {
+      console.log('ttt')
+    }
     this.writeInt32(0, e.size());
     for (var i in e.value) {
-        e.kproto._write(this, 0, i);
-        e.vproto._write(this, 1, e.value[i])
+      e.kproto._write(this, 0, i);
+      e.vproto._write(this, 1, e.value[i])
     }
   }
 

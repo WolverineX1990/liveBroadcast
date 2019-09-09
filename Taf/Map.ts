@@ -9,11 +9,27 @@ class Map {
   }
 
   put(t, e) {
-    this.value[t] = e
+    this.value[t] = e;
   }
 
   get = function(t) {
-    return this.value[t]
+    return this.value[t];
+  }
+
+  clear() {
+    this.value = new Object();
+  }
+
+  remove (t) {
+    delete this.value[t];
+  }
+
+  size() {
+    var t = 0;
+    for (var e in this.value) {
+        t++
+    }
+    return t
   }
 }
 
