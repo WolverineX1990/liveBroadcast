@@ -55,10 +55,11 @@ class Wup {
     this.sBuffer = t.getBinBuffer();
     var e = new BinBuffer();
     e = this.writeTo();
+    // console.log('e', e)
     var i = new BinBuffer();
     i.writeInt32(4 + e.len);
     i.writeBytes(e);
-    return i
+    return i;
   }
 
   writeTo = function() {

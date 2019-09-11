@@ -1,28 +1,40 @@
+import utils from './../utils/generate32';
+
 export default class Cookies {
+  data: Array<string>= [];
+  constructor () {
+    // let session =  Math.random();
+    // let uuid = utils.generate32();
+    // let sids = encodeURIComponent('__rootsid='+ utils.generate32());
+    // this.add(`__yasmid=${session}; path=/`);
+    // this.add(`__yamid_tt1=${session}; path=/`);
+    // this.add(`__yamid_new=${uuid}; path=/`);
+    // this.add(`_yasids=${sids}; path=/`);
+  }
 
-}
+  get cookie () {
+    return this.data.join(';')
+  }
 
-{
-	"lUid": 0,
-	"sGuid": "0e74b062023e775d490e4d4c4e4c1783",
-	"sToken": "",
-	"sHuYaUA": "webh5&1909101153&websocket",
-	"sCookie": "",
-	"iTokenType": 0
-}
+  get value() {
+    return this.data.map(str => str.split(';')[0]).join(';');
+  }
 
+  add (value) {
+    this.data.push(value);
+  }
 
-PHPSESSID=93a9s2500q8f1nc67ht7p1pbu2;
-isInLiveRoom=true;
-SoundValue=0.50;
-alphaValue=0.80;
-udb_passdata=3;
+  concat (arr) {
+    this.data = this.data.concat(arr);
+  }
 
+  getCookie (key) {
+    // this.data.filter();
 
-guid=0e74b062023e775d490e4d4c4e4c1783;
+    return '';
+  }
 
-
-__yasmid=0.10649832043034113;
-__yamid_tt1=0.10649832043034113;
-__yamid_new=C89827D1F7B00001A04C16A012D01BE3;
-_yasids=__rootsid%3DC89827D1FD1000011C609CDD16F0E0A0; 
+  clear () {
+    this.data = [];
+  }
+} 

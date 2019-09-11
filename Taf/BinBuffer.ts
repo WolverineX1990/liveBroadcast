@@ -29,7 +29,7 @@ class BinBuffer {
   getBuffer() {
     var t = new ArrayBuffer(this.len);
     new Uint8Array(t).set(new Uint8Array(this.buf,0,this.len));
-    return t
+    return t;
   }
 
   writeUInt32 (t) {

@@ -58,7 +58,8 @@ export function get(url, data?: Object, config?: any): Promise<any> {
 export function post(url, data?: Object, config?: any): Promise<any> {
   let param = urlParse(url);
 		let promise: Promise<any> = new Promise(function(resolve, reject){
-      let postData = stringify(data);
+      let isString = typeof data == 'string';
+      let postData = isString ? data + '' : stringify(data);
 			let options = {
 				host: param.host,
         path: param.path,
@@ -66,7 +67,7 @@ export function post(url, data?: Object, config?: any): Promise<any> {
 				headers: {
 					'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
 					'Upgrade-Insecure-Requests': 1,
-					// Host: 'www.huya.com/19622208',
+					Host: param.host,
           Pragma: 'no-cache',
           'Content-Type': 'application/x-www-form-urlencoded',
           'Content-Length': Buffer.byteLength(postData),
@@ -104,7 +105,6 @@ export function post(url, data?: Object, config?: any): Promise<any> {
 			req.on('error', function(err) {
         reject(err);
       });
-
       req.write(postData);
       req.end();
     });

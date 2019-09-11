@@ -1,8 +1,13 @@
 import { post, get } from './../core/request';
 import CONFIG from './../const/CONFIG';
 
-export function getWssHosts(headers) {
-	return post(CONFIG.wupHost, null, { headers });
+export function getWssHosts(data, headers) {
+	return post(CONFIG.wupHost, data, { 
+		headers: {
+			'Content-Type': '',
+			...headers,
+		}
+	});
 }
 
 export function checkLogin() {
