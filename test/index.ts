@@ -4,9 +4,9 @@ import login from './login';
 import test1 from './test1';
 import { request  } from 'http';
 import { parse as urlParse } from 'url';
-getWssHosts();
+// getWssHosts();
 // getCookies();
-// login();
+login();
 // test1();
 // let data = `,<LVliveuifdoLaunch}õtReqç
 

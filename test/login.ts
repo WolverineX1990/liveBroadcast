@@ -15,14 +15,16 @@ let d = {
 		"password": "fbb0f83ad36de0d58728e065b2ccf9ddf4b85f1e",
 		"domainList": "",
 		"remember": "1",
-		"behavior": "%5B%7B%22page.login%22%3A%220.125%22%7D%2C%7B%22input.l.account%22%3A%228.39%22%7D%2C%7B%22input.l.passwd%22%3A%2213.332%22%7D%2C%7B%22button.UDBSdkLogin%22%3A%2218.573%2C220%2C237%22%7D%5D",
+		"behavior": encodeURIComponent(`[{"page.login":"0.076"},{"button.UDBSdkLogin":"26.674,239,261"},{"input.l.account":"26.677"},{"button.UDBSdkLogin":"27.242,249,243"},{"input.l.account":"27.243"},{"input.l.account":"62.131"},{"button.UDBSdkLogin":"62.242,257,223"},{"input.l.account":"62.243"},{"input.l.account":"76.596"},{"button.UDBSdkLogin":"78.587,255,249"},{"input.l.account":"78.588"},{"input.l.account":"79.159"},{"input.l.passwd":"84.689"},{"button.UDBSdkLogin":"97.221,286,224"}]`),
 		"randomStr": "",
-		"page": "https://www.huya.com/19622208"
+		"page": "https://www.huya.com/"
 	}
 }
 
 export default function test () {
-    passwordLogin(d).then(res => {
+    passwordLogin(d, {
+			context: d.context
+		}).then(res => {
         console.log(res);
     });
 }
