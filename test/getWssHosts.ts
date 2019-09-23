@@ -1,18 +1,13 @@
-// import LiveLaunchReq from './../HUYA/LiveLaunchReq';
-// import Wup from './../Taf/Wup';
-// import ELiveSource from './../HUYA/ELiveSourcet';
-// import UserId from './../HUYA/UserId';
 const Taf = require('./../lib/Taf');
 const HUYA = require('./../lib/HUYA');
 import { checkLogin, getWssHosts } from './../api/service';
 import Cookies from './../core/Cookies';
 
-
 export default function test () {
   let cookies = new Cookies();
   checkLogin().then(res => {
     cookies.concat(res.cookie);
-    const playerVer = 1909101153;
+    const playerVer = 1909201810;
     let userId = new HUYA.UserId();
     userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
     userId.sGuid = '';
@@ -34,11 +29,40 @@ function sendAjax(userId, cookies) {
   wup.setFunc("doLaunch");
   wup.writeStruct("tReq", t);
   let buf = wup.encode().getBuffer();
-  let data = String.fromCharCode.apply(null, new Uint8Array(buf));
-  console.log(data)
-  getWssHosts(data, {Cookie: cookies.value}).then(res => {
-    console.log(res);
-  }, err => {
-    console.log(err)
-  })
+  getWssHosts(toBuffer(buf), cookies.value)
+      .then(res => {
+        var e = new HUYA.LiveLaunchRsp();
+        var i = new Taf.Wup();
+        let buf = toArrayBuffer(res)
+        console.log(buf)
+        i.decode(buf);
+        i.readStruct("tRsp", e);
+        console.log(e)
+        var r = e.vProxyList.value;
+        for (var n = 0, s = r.length; n < s; n++) {
+            var o = r[n];
+            if (o.eProxyType == 5) {
+                // G.httpWs = o.sProxy.value;
+                break
+            }
+        }
+      })
+}
+
+function toBuffer(ab) {
+  var buf =  Buffer.allocUnsafe(ab.byteLength);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buf.length; ++i) {
+      buf[i] = view[i];
+  }
+  return buf;
+}
+
+function toArrayBuffer(buf) {
+  var ab = new ArrayBuffer(buf.length);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buf.length; ++i) {
+      view[i] = buf[i];
+  }
+  return ab;
 }

@@ -67,7 +67,8 @@ export function post(url, data?: Object, config?: any): Promise<any> {
 				headers: {
 					'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
 					'Upgrade-Insecure-Requests': 1,
-					Host: param.host,
+          Host: param.host,
+          Origin:  param.host,
           Pragma: 'no-cache',
           'Content-Type': 'application/x-www-form-urlencoded',
           'Content-Length': Buffer.byteLength(postData),
@@ -82,7 +83,8 @@ export function post(url, data?: Object, config?: any): Promise<any> {
 				for(let key in config.headers) {
 					options.headers[key] = config.headers[key];
 				}
-			}
+      }
+      
       let req = request(options, function (response) {
           response.setEncoding('utf8');
           let data = '';
