@@ -1,13 +1,21 @@
+import './../global';
 import getWssHosts from './getWssHosts';
 import getCookies from './getCookies';
+import sendMes from './sendMes';
 import login from './login';
 import test1 from './test1';
 import { request  } from 'http';
 import { parse as urlParse } from 'url';
+const Taf = require('./../lib/Taf');
+
+
 global['storage'] = {
 
 };
-getWssHosts();
+
+
+sendMes();
+// getWssHosts();
 // getCookies();
 // login();
 // test1();
