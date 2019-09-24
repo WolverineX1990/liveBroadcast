@@ -1,10 +1,19 @@
 import * as WebSocket from 'ws';
-// const Taf = require('./../lib/Taf');
-// const HUYA = require('./../lib/HUYA');
+const Taf = require('./../lib/Taf');
+const HUYA = require('./../lib/HUYA');
 const TafMx = require('./../lib/TafMx');
 import Cookies from './../core/Cookies';
 import WupHandler from './../core/wupHandler';
 import { toArrayBuffer } from './../utils/buffer';
+
+const playerVer = 1909201810;
+let userId = new HUYA.UserId();
+let cookies = new Cookies();
+userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
+userId.sGuid = '0e74b066dd85895de9a602cd03cdf7c9';
+userId.sToken = '';
+userId.sHuYaUA = "webh5&" + playerVer + "&websocket";
+userId.sCookie = 'SoundValue=0.50; __yamid_tt1=0.3687445989565903; __yamid_new=C89C9E5B98C00001E9941410D860EA50; alphaValue=0.80; isInLiveRoom=true; guid=0e74b066dd85895de9a602cd03cdf7c9; sdid=; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1568601565,1568877737,1569207289,1569310410; __yasmid=0.3687445989565903; _yasids=__rootsid%3DC89CAE366E600001827D6B831FE0FC40; udb_passdata=3; PHPSESSID=mu26acnq5052tbc9ehesak7sc7; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1569310469';//cookies.value;
 
 export default function test () {
   let hosts = [
@@ -21,13 +30,13 @@ export default function test () {
 function sendWup2 (host, n?) {
   const ws = new WebSocket('wss://' + host);
   ws.on('open', function open() {
-      console.log('open')
-      sendMsg3(ws);
-      // sendMsg2(ws)
+      console.log('ws is open');
+      sendLivingInfoReq(ws);
+      sendPingReq(ws);
+      sendDoLaunch(ws)
   });
 
   ws.on('message', function incoming(data) {
-    console.log('message')
     encodeData(toArrayBuffer(data));
   });
 
@@ -36,38 +45,20 @@ function sendWup2 (host, n?) {
   });
 }
 
-function sendMsg2(ws) {
-  console.log('sendMsg2')
-  // var e = new VideoGatewayProxy2VGPingReq();
-  const playerVer = 1909201810;
-  let userId = new HUYA.UserId();
-  let cookies = new Cookies();
-  userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
-  userId.sGuid = '0e74b066dd85895de9a602cd03cdf7c9';
-  userId.sToken = '';
-  userId.sHuYaUA = "webh5&" + playerVer + "&websocket";
-  userId.sCookie = 'SoundValue=0.50; __yamid_tt1=0.3687445989565903; __yamid_new=C89C9E5B98C00001E9941410D860EA50; alphaValue=0.80; isInLiveRoom=true; guid=0e74b066dd85895de9a602cd03cdf7c9; sdid=; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1568601565,1568877737,1569207289,1569310410; __yasmid=0.3687445989565903; _yasids=__rootsid%3DC89CAE366E600001827D6B831FE0FC40; udb_passdata=3; PHPSESSID=mu26acnq5052tbc9ehesak7sc7; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1569310469';//cookies.value;
-
-  // e.tUserId = userId;
+function sendDoLaunch(ws) {
+    console.log('sendDoLaunch')
+    
+    var e = new HUYA.LiveLaunchReq;
+    e.tId = userId;
+    e.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
+    e.bSupportDomain = 1
   
-
-  // let buf = new WupHandler('videogateway', 'videoGatewayProxy2VGPing', e).buffer;
-  // ws.send(buf);
-
-  // setTimeout(() => sendMsg(ws), 15 * 1000)
+    let buf = new WupHandler('liveui', 'doLaunch', e).wsBuffer;
+    ws.send(buf);
 }
 
-function sendMsg(ws) {
-  console.log('sendMsg')
-  const playerVer = 1909201810;
-  let userId = new HUYA.UserId();
-  let cookies = new Cookies();
-  userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
-  userId.sGuid = '0e74b066dd85895de9a602cd03cdf7c9';
-  userId.sToken = '';
-  userId.sHuYaUA = "webh5&" + playerVer + "&websocket";
-  userId.sCookie = 'SoundValue=0.50; __yamid_tt1=0.3687445989565903; __yamid_new=C89C9E5B98C00001E9941410D860EA50; alphaValue=0.80; isInLiveRoom=true; guid=0e74b066dd85895de9a602cd03cdf7c9; sdid=; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1568601565,1568877737,1569207289,1569310410; __yasmid=0.3687445989565903; _yasids=__rootsid%3DC89CAE366E600001827D6B831FE0FC40; udb_passdata=3; PHPSESSID=mu26acnq5052tbc9ehesak7sc7; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1569310469';//cookies.value;
-
+function sendLivingInfoReq(ws) {
+  console.log('sendLivingInfoReq')
   var i = new HUYA.GetLivingInfoReq;
   i.tId = userId;
   i.lTopSid = 0;
@@ -78,8 +69,6 @@ function sendMsg(ws) {
 
   let buf = new WupHandler('liveui', 'getLivingInfo', i).wsBuffer;
   ws.send(buf);
-
-  // setTimeout(() => sendMsg(ws), 15 * 1000)
 }
 
 
@@ -90,7 +79,7 @@ function encodeData(e) {
     var i = new Taf.JceInputStream(e);
     var r = new HUYA.WebSocketCommand;
     r.readFrom(i);
-    console.log(r.iCmdType)
+    console.log('message:' + r.iCmdType)
     switch (r.iCmdType) {
       case HUYA.EWebSocketCommandType.EWSCmd_RegisterRsp:
           i = new Taf.JceInputStream(r.vData.buffer);
@@ -265,20 +254,11 @@ function encodeData(e) {
 }
 
 
-function sendMsg3(ws) {
-  console.log('sendMsg3')
-  const playerVer = 1909201810;
-  let userId = new HUYA.UserId();
-  let cookies = new Cookies();
-  userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
-  userId.sGuid = '0e74b066dd85895de9a602cd03cdf7c9';
-  userId.sToken = '';
-  userId.sHuYaUA = "webh5&" + playerVer + "&websocket";
-  userId.sCookie = 'SoundValue=0.50; __yamid_tt1=0.3687445989565903; __yamid_new=C89C9E5B98C00001E9941410D860EA50; alphaValue=0.80; isInLiveRoom=true; guid=0e74b066dd85895de9a602cd03cdf7c9; sdid=; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1568601565,1568877737,1569207289,1569310410; __yasmid=0.3687445989565903; _yasids=__rootsid%3DC89CAE366E600001827D6B831FE0FC40; udb_passdata=3; PHPSESSID=mu26acnq5052tbc9ehesak7sc7; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1569310469';//cookies.value;
-
+function sendPingReq(ws) {
+  console.log('sendPingReq')
   var i = new HUYA.VideoGatewayProxy2VGPingReq();
   i.lLocalTime = .001 * Date.now() >> 0;
   let buf = new WupHandler('videogateway', 'videoGatewayProxy2VGPing', i).wsBuffer;
   ws.send(buf);
-  setTimeout(() => sendMsg3(ws), 15 * 1000)
+  setTimeout(() => sendPingReq(ws), 15 * 1000)
 }
