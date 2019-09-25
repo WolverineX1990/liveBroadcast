@@ -58,19 +58,74 @@ function sendDoLaunch(ws) {
 }
 
 function sendLivingInfoReq(ws) {
-  console.log('sendLivingInfoReq')
-  var i = new HUYA.GetLivingInfoReq;
-  i.tId = userId;
-  i.lTopSid = 0;
-  i.lSubSid = 0;
-  i.lPresenterUid = 1199521503354;
-  i.sTraceSource = null;
-  i.sPassword = '';
+    console.log('sendLivingInfoReq')
+    var i = new HUYA.GetLivingInfoReq;
+    i.tId = userId;
+    i.lTopSid = 0;
+    i.lSubSid = 0;
+    i.lPresenterUid = 1199521503354;
+    i.sTraceSource = null;
+    i.sPassword = '';
 
-  let buf = new WupHandler('liveui', 'getLivingInfo', i).wsBuffer;
-  ws.send(buf);
+    let buf = new WupHandler('liveui', 'getLivingInfo', i).wsBuffer;
+    ws.send(buf);
 }
 
+function sendWebUserInfo(ws) {
+    console.log('sendWebUserInfo')
+    var t = new HUYA.GetWebdbUserInfoReq;
+    // t.lUid = G.yyuid;
+    t.lImid = 0;
+    t.sPassport = cookies.getCookie("username");
+    t.sAccount = 0;
+    t.bCacheFirst = true;
+
+    let buf = new WupHandler('liveui', 'getWebdbUserInfo', t).wsBuffer;
+    ws.send(buf);
+}
+
+function sendOnUserEvent(ws) {
+    console.log('sendOnUserEvent')
+    var t = new HUYA.UserEventReq;
+    t.tId = userId;
+    // t.lTid = G.topsid;
+    // t.lSid = G.subsid;
+    t.lShortTid = 0;
+    t.eOp = 1;
+    t.sChan = "";
+    t.eSource = 3;
+    // t.lPid = G.presenterUid;
+    // t.bWatchVideo = G.hasVideo;
+    // t.bAnonymous = !G.isLogin;
+    t.eTemplateType = 1;
+    // t.sTraceSource = ENV.platform || "";
+    // r.sendWup2("onlineui", "On UserEvent", t, p);
+
+    let buf = new WupHandler('onlineui', 'OnUserEvent', t).wsBuffer;
+    ws.send(buf);
+}
+
+function sendOnClientReady(ws) {
+    console.log('sendOnClientReady')
+    // if (G.loginRegister)
+    //     return;
+    // if (G.danmuP2P && G.registGroup && t.iResCode == 0 && t.vSupportP2PGroupId.value.length > 0) {
+    //     G.danmuGroudId = t.vSupportP2PGroupId.value.concat();
+    //     G.danmuLruCache = true;
+    //     Event.fireEvent(Event.ENTER_P2P_AFTER_REGISTER_GOURP)
+    // }
+    // G.loginRegister = true;
+    // G.userInTime = Date.now();
+    // G.loginRegisterTime = G.userInTime - G.loginRegisterTime;
+    // g();
+    var e = new HUYA.EnterChannelReq;
+    e.tUserId = userId;
+    // e.lTid = G.topsid;
+    // e.lSid = G.subsid;
+
+    let buf = new WupHandler('onlineui', 'OnUserEvent', t).wsBuffer;
+    ws.send(buf);
+}
 
 function encodeData(e) {
     // if (localStorage.__wup > 1) {
