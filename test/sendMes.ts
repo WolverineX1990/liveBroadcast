@@ -123,7 +123,7 @@ function sendOnClientReady(ws) {
     // e.lTid = G.topsid;
     // e.lSid = G.subsid;
 
-    let buf = new WupHandler('onlineui', 'OnUserEvent', t).wsBuffer;
+    let buf = new WupHandler('onlineui', 'OnUserEvent', e).wsBuffer;
     ws.send(buf);
 }
 
