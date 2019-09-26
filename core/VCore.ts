@@ -123,7 +123,7 @@ export default class VCore {
     this.wss.start(() => {
       this.dispatch("WEBSOCKET_CONNECTED");
     }, (data) => {
-      dataParse(data);
+      dataParse(data, this);
     }, () => {
       console.log('close')
     });
