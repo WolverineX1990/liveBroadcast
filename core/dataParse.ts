@@ -27,6 +27,7 @@ export default function dataParse (e, vcore) {
             if (false) {
                 console.log("%c<<<<<<< %crspregisterGroup", s)
             }
+            console.log('ffffffffff')
             vcore.dispatch("WSRegisterGroupRsp", s);
             break;
         case HUYA.EWebSocketCommandType.EWSCmdS2C_UnRegisterGroupRsp:
@@ -39,7 +40,7 @@ export default function dataParse (e, vcore) {
             vcore.dispatch("WSUnRegisterGroupRsp", u);
             break;
         case HUYA.EWebSocketCommandType.EWSCmd_WupRsp:
-            var d = new Taf.Wup;
+            var d = new Taf.Wup();
             d.decode(r.vData.buffer);
             var c = TafMx.WupMapping[d.sFuncName];
             if (c) {
@@ -68,6 +69,7 @@ export default function dataParse (e, vcore) {
                     h.iRequestId = d.iRequestId
                 }
                 var m = d.sFuncName;
+                console.log(m)
                 vcore.dispatch(d.iRequestId > 0 ? m + d.iRequestId : m, h)
             } else {
                 vcore.dispatch(d.sFuncName);

@@ -26,4 +26,5 @@ export default function test() {
 
 function wssConnected () {
     mesMg.sendLivingInfoReq();
+    mesMg.sendDoLaunch();
 }

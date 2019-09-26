@@ -18,11 +18,11 @@ export default class MessageManager {
         i.sTraceSource = null;
         i.sPassword = ENV.roomPayPassword;
         this.vcore.sendWup2('liveui', 'getLivingInfo', i, function(t) {
-            console.log(t);
+            // console.log(t);
         });
     }
 
-    sendDoLaunch(ws) {
+    sendDoLaunch() {
         console.log('sendDoLaunch')
         var e = new HUYA.LiveLaunchReq;
         e.tId = this.userId;
