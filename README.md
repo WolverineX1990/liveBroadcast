@@ -4,6 +4,26 @@ chat
 
 getWebdbUserInfo
 
-OnClientRea
+OnClientReady
 
 OnUserEvent
+
+getLivingStreamInfo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+getLivingInfo

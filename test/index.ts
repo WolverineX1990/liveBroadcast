@@ -14,11 +14,11 @@ global['storage'] = {
 };
 
 
-sendMes();
+// sendMes();
 // getWssHosts();
 // getCookies();
 // login();
-// test1();
+test1();
 // let data = `,<LVliveuifdoLaunch}õtReqç
 
 // &6webh5&1909101505&websocketF®PHPSESSID=p6othmjboi1rjikti193u0p265; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1567422879,1567826133,1568010145,1568012550; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1568191271\*&6F `

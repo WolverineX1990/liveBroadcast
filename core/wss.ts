@@ -1,28 +1,32 @@
 import * as WebSocket from 'ws';
+import { toBuffer, toArrayBuffer } from './../utils/buffer';
 
 export default class Wss {
-    host: ''
-    ws: null
+    host
+    ws
     constructor(host) {
-        this.host = host;
-        this.init();
+        this.host = 'wss://' + host;
     }
-    init () {
-        const ws = new WebSocket(this.host);
 
+    start (openFun, messageFun, closeFun) {
+        let ws = new WebSocket(this.host);
+        this.ws = ws;
         ws.on('open', function open() {
-            console.log('open')
-            // ws.send('something');
+            openFun();
         });
 
         ws.on('message', function incoming(data) {
-            console.log(data);
+            messageFun(toArrayBuffer(data));
         });
 
         ws.on('close', function close() {
-            console.log('disconnected');
+            closeFun();
         });
+    }
 
-        this.ws = ws;
+    sendBuf (buf) {
+        if (this.ws) {
+            this.ws.send(toBuffer(buf));
+        }
     }
 }
