@@ -27,4 +27,24 @@ export default function test() {
 function wssConnected () {
     mesMg.sendLivingInfoReq();
     mesMg.sendDoLaunch();
+    mesMg.sendPingReq();
+    startPing();
+}
+
+let pingInter;
+function startPing() {
+    let config = {
+        tickCount: 0,
+        interval: 1000,
+        times: 0
+    };
+    pingInter = setInterval(ping, 10, config);
+}
+
+function ping(config) {
+    if (++config.tickCount % config.interval == 0) {
+        let a = config.tickCount / config.interval;
+        mesMg.sendPingReq();
+        config.times > 0 && config.times <= a && config.tickCount > 0 && clearInterval(pingInter)
+    }
 }

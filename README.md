@@ -22,8 +22,4 @@ getLivingStreamInfo
 
 
 
-
-
-
-
-getLivingInfo
+PropsUIServer

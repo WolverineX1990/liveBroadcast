@@ -119,13 +119,26 @@ export default class VCore {
     this.sendWup(e, i, r, null, o)
   }
 
+  sendRegisterGroup (t) {
+    console.log('sendRegisterGroup');
+    var e = new Taf.JceOutputStream();
+    t.writeTo(e);
+    var i = new HUYA.WebSocketCommand;
+    i.iCmdType = HUYA.EWebSocketCommandType.EWSCmdC2S_RegisterGroupReq;
+    i.vData = e.getBinBuffer();
+    let stream = new Taf.JceOutputStream;
+    i.writeTo(e);
+    console.log(stream.getBuffer())
+    this.wss.sendBuf(stream.getBuffer());
+  }
+
   wsStart() {
     this.wss.start(() => {
       this.dispatch("WEBSOCKET_CONNECTED");
     }, (data) => {
       dataParse(data, this);
     }, () => {
-      console.log('close')
+      console.log('===================scoket close=====================');
     });
   }
 }

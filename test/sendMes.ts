@@ -322,7 +322,6 @@ function encodeData(e) {
     }
 }
 
-
 function sendPingReq(ws) {
   console.log('sendPingReq')
   var i = new HUYA.VideoGatewayProxy2VGPingReq();
