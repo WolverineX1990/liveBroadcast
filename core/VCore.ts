@@ -127,7 +127,7 @@ export default class VCore {
     i.iCmdType = HUYA.EWebSocketCommandType.EWSCmdC2S_RegisterGroupReq;
     i.vData = e.getBinBuffer();
     let stream = new Taf.JceOutputStream;
-    i.writeTo(e);
+    i.writeTo(stream);
     console.log(stream.getBuffer())
     this.wss.sendBuf(stream.getBuffer());
   }

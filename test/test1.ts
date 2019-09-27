@@ -1,4 +1,5 @@
 import VCore from './../core/VCore';
+import ENV from './../const/ENV';
 import MessageManger from './../core/MessageManger';
 const HUYA = require('./../lib/HUYA');
 const TafMx = require('./../lib/TafMx');
@@ -21,6 +22,8 @@ export default function test() {
     vcore.userId = userId;
     mesMg = new MessageManger(vcore, userId);
     vcore.addListener("WEBSOCKET_CONNECTED", wssConnected);
+    vcore.addListener("WSRegisterRsp", wssRegisterRsp);
+    vcore.addListener("WSRegisterGroupRsp", wssRegisterRsp);
     vcore.wsStart();
 }
 
@@ -47,4 +50,25 @@ function ping(config) {
         mesMg.sendPingReq();
         config.times > 0 && config.times <= a && config.tickCount > 0 && clearInterval(pingInter)
     }
+}
+
+function wssRegisterRsp (t) {
+    // if (ENV.loginRegister) {
+    //     return
+    // }
+    // ENV.loginRegister = true;
+    //G.userInTime = Date.now();
+    //G.loginRegisterTime = G.userInTime - G.loginRegisterTime;
+    // if (G.danmuP2P && G.registGroup && t.iResCode == 0 && t.vSupportP2PGroupId.value.length > 0) {
+    //     G.danmuGroudId = t.vSupportP2PGroupId.value.concat();
+    //     G.danmuLruCache = true;
+    //     Event.fireEvent(Event.ENTER_P2P_AFTER_REGISTER_GOURP)
+    // }
+
+    // getWebdbUserInfo
+    //OnUserEvent
+    //NobleServer
+    mesMg.sendEnterChannelReq();
+
+    //vplayerui   33925
 }

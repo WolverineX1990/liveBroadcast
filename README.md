@@ -23,3 +23,5 @@ getLivingStreamInfo
 
 
 PropsUIServer
+
+getPresenterLiveScheduleInfo

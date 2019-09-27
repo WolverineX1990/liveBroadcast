@@ -36,13 +36,13 @@ export default class MessageManager {
             // G.serverTimeGap = t.iTime * 1e3 - Date.now();
             // G.userId.sGuid = t.sGuid;
             //发送sendRegisterGroup
-            // if (G.loginRegister) {
+            // if (ENV.loginRegister) {
             //     return;
             // }
             var t = new HUYA.WSRegisterGroupReq;
             t.vGroupId.value.push("live:" + ENV.presenterUid);
             t.vGroupId.value.push("chat:" + ENV.presenterUid);
-            if (ENV.roomPayPassword && ENV.roomPayPassword != "") {
+            if (ENV.roomPayPassword && ENV.roomPayPassword != '') {
                 t.vGroupId.value.push("schat:" + ENV.presenterUid + "-" + ENV.roomPayPassword)
             }
             vcore.sendRegisterGroup(t)
@@ -56,5 +56,13 @@ export default class MessageManager {
         this.vcore.sendWup2('videogateway', 'videoGatewayProxy2VGPing', i, function(t) {
             
         });
+    }
+
+    sendEnterChannelReq () {
+        var e = new HUYA.EnterChannelReq;
+        e.tUserId = this.userId;
+        e.lTid = ENV.topsid;
+        e.lSid = ENV.subsid;
+        this.vcore.sendWup("ActivityUIServer", "OnClientReady", e);
     }
 }

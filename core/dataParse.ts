@@ -27,7 +27,6 @@ export default function dataParse (e, vcore) {
             if (false) {
                 console.log("%c<<<<<<< %crspregisterGroup", s)
             }
-            console.log('ffffffffff')
             vcore.dispatch("WSRegisterGroupRsp", s);
             break;
         case HUYA.EWebSocketCommandType.EWSCmdS2C_UnRegisterGroupRsp:
