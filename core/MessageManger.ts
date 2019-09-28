@@ -73,8 +73,9 @@ export default class MessageManager {
         t.sPassport = '';//utils.getCookie("username");
         t.sAccount = 0;
         t.bCacheFirst = true;
-        this.vcore.sendWup2("liveui", "getWebdbUserInfo", t, function() {
+        this.vcore.sendWup2("liveui", "getWebdbUserInfo", t, function(data) {
             // G.userInfo = t.tUserInfo;
+            console.log(data)
         })
     }
     heartInt 
@@ -93,6 +94,7 @@ export default class MessageManager {
         t.eTemplateType = 1;
         // t.sTraceSource = ENV.platform || "";
         this.vcore.sendWup2("onlineui", "OnUserEvent", t, (data) => {
+            console.log('onlineui')
             // G.userIn = true;
             // G.userInTime = Date.now() - G.userInTime;
             var e = data.iUserHeartBeatInterval * 1e3;
@@ -112,17 +114,20 @@ export default class MessageManager {
         e.lSid = ENV.subsid;
         e.lShortTid = 0;
         e.lPid = ENV.presenterUid;
-        e.bWatchVideo = ENV.hasVideo;
+        // e.bWatchVideo = ENV.hasVideo;
         // e.eLineType = G.videoLine;
         // e.iFps = G.livingInfo ? G.livingInfo.tStreamSettingNotice.iFrameRate : 0;
         // e.iAttendee = G.iAttendeeCount;
-        e.iLastHeartElapseTime = I;
+        // e.iLastHeartElapseTime = I;
+        let w = (new Date).getTime();
+        let I = 0;
+        let m = 0;
         this.vcore.sendWup2("onlineui", "OnUserHeartBeat", e, (data) => {
             var e = data.iRet;
+            console.log(e)
             var i = (new Date).getTime();
             I = i - w
         }, true, ++m);
-        w = (new Date).getTime();
     }
 
     sendNobleServer() {
