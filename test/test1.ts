@@ -65,8 +65,8 @@ function wssRegisterRsp (t) {
     //     Event.fireEvent(Event.ENTER_P2P_AFTER_REGISTER_GOURP)
     // }
 
-    // getWebdbUserInfo
-    //OnUserEvent
+    mesMg.sendWebdbUserInfo();
+    mesMg.sendUserEventReq();
     //NobleServer
     mesMg.sendEnterChannelReq();
 
