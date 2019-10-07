@@ -1,7 +1,62 @@
-import { passwordLogin } from './../api/service';
-
-let d = {"uri":"30001","version":"2.4","context":"WB-333c3fbef74b490a9884299ce45b22af-C89A216FBA8000019D178B2115D31A2B-0e74aecefc547f5deeda4d3d4e3da497","appId":"5002","smid":"","lcid":"2052","byPass":"3","sdid":"39295108","requestId":"39317654","data":{"userName":"18519203764","password":"fbb0f83ad36de0d58728e065b2ccf9ddf4b85f1e","domainList":"","remember":"1","behavior":"%5B%7B%22page.login%22%3A%220.049%22%7D%2C%7B%22input.l.account%22%3A%2213.74%22%7D%2C%7B%22input.l.passwd%22%3A%2217.236%22%7D%2C%7B%22button.UDBSdkLogin%22%3A%2222.563%2C178%2C229%22%7D%5D","randomStr":"","page":"https://i.huya.com/"}};
+import { passwordLogin, getImgCaptcha, getCodeByPicId, uploadCodeImg, verifyiIgCaptcha } from './../api/service';
+import sha1 from './../core/sha1';
+import userJson from './../const/userJson';
+import baiduClient from './../core/baiduApi';
+var fs = require('fs');
+var images = require("images");
+const Tesseract = require('tesseract.js');
+import generate from './../utils/generate32';
+import VerifyiIgCaptcha from './../core/VerifyiIgCaptcha';
 
 export default function test () {
-    passwordLogin(JSON.stringify(d)).then(res => console.log(res))
+    userJson.data.userName = '13282222987';
+    userJson.data.password = sha1('hy13282222987');
+    // images("a.png").size(400).save('./b.png');
+
+    // Tesseract.recognize('./c.png', {
+    //     lang: 'eng',
+    //     tessedit_char_blacklist: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    // }).then((res, res1) => console.log(res.text))
+    // var image = fs.readFileSync("./a.png").toString("base64");
+    // baiduClient.generalBasic(image).then(function(result) {
+    //     console.log(JSON.stringify(result));
+    // }).catch(function(err) {
+    //     // 如果发生网络错误
+    //     console.log(err);
+    // });
+    // return;
+
+    // return;
+    passwordLogin(JSON.stringify(userJson)).then(res => {
+        let data = JSON.parse(res.data);
+        console.log(data)
+
+        if (data.returnCode === 10030) {
+            let info = data.data.strategys[0];
+            var d = new VerifyiIgCaptcha(info, () => {
+                console.log(1)
+            });
+        }
+    });
+}
+
+function polling(picid, func) {
+    getCodeByPicId({picid}).then(res => {
+        let msg = JSON.parse(res).msg;
+        if (!msg) {
+            console.log('polling')
+            setTimeout(() => polling(picid, func), 3000);
+        } else {
+            func(msg)
+        }
+    });
+}
+
+function paseData(e) {
+    var t, a = {};
+    if (-1 !== (t = e.indexOf("?")))
+        for (var n = e.substring(t + 1, e.length), r = n.split("&"), s = [], o = 0, i = r.length; i > o; o++)
+            s = r[o].split("="),
+            a[s[0]] = s[1];
+    return a
 }

@@ -6,7 +6,15 @@ export function request (options) {
 			if (error) {
         reject(error)
       } else {
-        resolve(body);
+        if (options.getCookies) {
+          resolve({
+            data: body,
+            cookies: response
+          });
+        } else {
+          resolve(body);
+        }
+        
       }
 	  });
   });

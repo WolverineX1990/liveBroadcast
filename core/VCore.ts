@@ -2,22 +2,46 @@ const Taf = require('./../lib/Taf');
 const HUYA = require('./../lib/HUYA');
 import Wss from './wss';
 import dataParse from './dataParse';
+import { getWssHosts } from './../api/service';
 
 export default class VCore {
-  private eventsMap:any= {}
+  private eventsMap: any= {}
   private _userId: any
   private wss: Wss
+  hosts = []
   constructor () {
-    let hosts = [
-      '7cec1711-ws.va.huya.com',
-      '7cefe854-ws.va.huya.com',
-      '7cec170f-ws.va.huya.com',
-      '7cefe84d-ws.va.huya.com',
-      '7cec1713-ws.va.huya.com' 
-    ];
-    this.wss = new Wss(hosts[2]);
-    // this.wsStart();
+    // this.wss = new Wss(hosts[2]);
   }
+
+  initWssHost() {
+    let t = new HUYA.LiveLaunchReq();
+    t.tId = this.userId;
+    t.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
+    t.bSupportDomain = 1;
+    let wup = new Taf.Wup();
+    wup.setServant('liveui');
+    wup.setFunc('doLaunch');
+    wup.writeStruct('tReq', t);
+    let buf = wup.encode().getBuffer();
+    return getWssHosts(buf, this.userId.sCookie).then(res => {
+      var e = new HUYA.LiveLaunchRsp;
+      var i = new Taf.Wup;
+      i.decode(res);
+      i.readStruct("tRsp", e);
+      // console.log(e.sClientIp)
+      var r = e.vProxyList.value;
+      for (var n = 0, s = r.length; n < s; n++) {
+          var o = r[n];
+          if (o.eProxyType == 5) {
+              this.hosts = o.sProxy.value;
+              break
+          }
+      }
+
+      this.wss = new Wss(this.hosts[2]);
+    });
+  }
+
   set userId (user) {
     this._userId = user;
   }
@@ -128,8 +152,29 @@ export default class VCore {
     i.vData = e.getBinBuffer();
     let stream = new Taf.JceOutputStream;
     i.writeTo(stream);
-    console.log(stream.getBuffer())
+    // console.log(stream.getBuffer())
     this.wss.sendBuf(stream.getBuffer());
+  }
+
+  sendWSVerifyCookieReq () {
+    // if (!G.isLogin)
+        //     return;
+    var t = new HUYA.WSVerifyCookieReq;
+    t.lUid = this.userId.lUid;//G.yyuid;
+    t.sUA = this.userId.sHuYaUA;//"webh5&" + VER + "&websocket";
+    // t.sCookie = document.cookie;
+    // // t.sGuid = utils.getCookie("guid");
+    // if (G.registGroup) {
+    //     t.bAutoRegisterUid = 1
+    // }
+    var e = new Taf.JceOutputStream;
+    t.writeTo(e);
+    var i = new HUYA.WebSocketCommand;
+    i.iCmdType = HUYA.EWebSocketCommandType.EWSCmdC2S_VerifyCookieReq;
+    i.vData = e.getBinBuffer();
+    e = new Taf.JceOutputStream;
+    i.writeTo(e);
+    this.wss.sendBuf(e.getBuffer());
   }
 
   wsStart() {

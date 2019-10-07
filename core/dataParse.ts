@@ -50,7 +50,7 @@ export default function dataParse (e, vcore) {
                 //     funcName: d.sFuncName
                 // });
                 d.readStruct(p, h, c);
-                // it(h);
+                it(h, vcore);
                 // Event.fireEvent(Event.SCRIPTXSS_REPORT, {
                 //     type: 2
                 // });
@@ -83,33 +83,18 @@ export default function dataParse (e, vcore) {
             I.readFrom(i);
             var w = I.iUri;
             i = new Taf.JceInputStream(I.sMsg.buffer);
-            console.log('start')
-            // var y = TafMx.UriMapping[I.iUri];
-            // if (y) {
-            //     var v = new y;
-            //     v.readFrom(i);
-            //     it(v);
-            //     if (o && !TafMx.NoLog[w.toString()]) {
-            //         console.log("%c<<<<<<< %crspMsgPush, %curi=" + w, ut("#0000E3"), ut("black"), ut("#8600FF"), v)
-            //     }
-            //     if (G.danmuLruCache) {
-            //         var S = {
-            //             uri: w,
-            //             data: v,
-            //             id: I.lMsgId,
-            //             groupId: I.sGroupId
-            //         };
-            //         x(S);
-            //         return
-            //     } else {
-            //         if (w == 1400 || w == 6298) {
-            //             k++
-            //         }
-            //     }
-            //     t.dispatch(w, v)
-            // } else if (l) {
-            //     console.info("收到未映射的 WSPushMessage uri=" + pushMsg.iUri)
-            // }
+            var y = TafMx.UriMapping[I.iUri];
+            console.log(y)
+            if (y) {
+                var v = new y;
+                v.readFrom(i);
+                it(v, vcore);
+                if (false) {
+                    console.log("%c<<<<<<< %crspMsgPush, %curi=", v)
+                }
+                console.log('w:' + w)
+                vcore.dispatch(w, v)
+            }
             break;
         case HUYA.EWebSocketCommandType.EWSCmdS2C_HeartBeatAck:
             console.log("%c<<<<<<< rspHeartBeat: " + Date.now());
@@ -136,29 +121,14 @@ export default function dataParse (e, vcore) {
                 var _ = I.vMsgItem.value[A];
                 var w = _.iUri;
                 var H = _.lMsgId;
-                // var y = TafMx.UriMapping[w];
-                // if (y) {
-                //     var v = new y;
-                //     var i = new Taf.JceInputStream(_.sMsg);
-                //     v.readFrom(i);
-                //     it(v);
-                //     if (o && !TafMx.NoLog[w.toString()]) {
-                //         console.log("%c<<<<<<< %crspMsgPushV2, %curi=" + w, ut("#0000E3"), ut("black"), ut("#8600FF"), v)
-                //     }
-                //     if (G.danmuLruCache) {
-                //         var S = {
-                //             uri: w,
-                //             data: v,
-                //             id: H,
-                //             groupId: I.sGroupId
-                //         };
-                //         x(S);
-                //         continue
-                //     }
-                //     t.dispatch(w, v)
-                // } else if (l) {
-                //     console.info("收到未映射的 WSPushMessage_V2 uri=" + w)
-                // }
+                var y = TafMx.UriMapping[w];
+                if (y) {
+                    var v = new y;
+                    var i = new Taf.JceInputStream(_.sMsg);
+                    v.readFrom(i);
+                    it(v, vcore);
+                    vcore.dispatch(w, v)
+                }
             }
             break;
         case HUYA.EWebSocketCommandType.EWSCmdS2C_EnterP2PAck:
@@ -168,7 +138,7 @@ export default function dataParse (e, vcore) {
             // if (o) {
             //     console.log("<<<<<<< WSEnterP2PAck", R)
             // }
-            // t.dispatch("WSEnterP2PAck", R);
+            vcore.dispatch("WSEnterP2PAck", R); 
             break;
         case HUYA.EWebSocketCommandType.EWSCmdS2C_ExitP2PAck:
             i = new Taf.JceInputStream(r.vData.buffer);
@@ -177,9 +147,30 @@ export default function dataParse (e, vcore) {
             // if (o) {
             //     console.log("<<<<<<< WSExitP2PAck", P)
             // }
-            // t.dispatch("WSExitP2PAck", P);
+            vcore.dispatch("WSE xitP2PAck", P);
             break;
         default:
             console.log("%c<<<<<<< Not matched CmdType: " + r.iCmdType, 'color:#red;font-weight:900')
+    }
+}
+
+function it(t, vcore) {
+    if (t instanceof HUYA.MatchWebPushLiveRsp) {
+        var e = t.iUri;
+        var i = TafMx.UriMapping[e];
+        if (!i) {
+            // console.log("%c<<<<<<< %cMatchWebPushLive, %clUri=" + e, ut("#000E3"), ut("black"), ut("#8600FF"), "收到未映射的广播包");
+            return
+        }
+        var r = new Taf.JceInputStream(t.vBuff);
+        try {
+            var n = r.readStruct(0, true, new i);
+            // console.log("%c<<<<<<< %cMatchWebPushLive, %clUri=" + e, ut("#000E3"), ut("black"), ut("#8600FF"), n);
+            vcore && vcore.dispatch(e, n)
+        } catch (t) {
+            // console.log("%c<<<<<<< %cMatchWebPushLive, %clUri=" + e, ut("#000E3"), ut("black"), ut("#8600FF"), "广播包解码错误", t)
+        }
+    } else {
+        console.log('not match...')
     }
 }

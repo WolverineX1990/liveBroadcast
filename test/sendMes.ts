@@ -6,7 +6,7 @@ import Cookies from './../core/Cookies';
 import WupHandler from './../core/wupHandler';
 import { toArrayBuffer } from './../utils/buffer';
 
-const playerVer = 1909201810;
+const playerVer = 1910071223;
 let userId = new HUYA.UserId();
 let cookies = new Cookies();
 userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,

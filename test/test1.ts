@@ -5,7 +5,7 @@ const HUYA = require('./../lib/HUYA');
 const TafMx = require('./../lib/TafMx');
 import Cookies from './../core/Cookies';
 
-const playerVer = 1909201810;
+const playerVer = 1910071223;
 let userId = new HUYA.UserId();
 let cookies = new Cookies();
 userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
@@ -25,6 +25,7 @@ export default function test() {
     vcore.addListener("WSRegisterRsp", wssRegisterRsp);
     vcore.addListener("WSRegisterGroupRsp", wssRegisterRsp);
     vcore.wsStart();
+    vcore.addListener("8000", enterRoom);
 }
 
 function wssConnected () {
@@ -67,8 +68,17 @@ function wssRegisterRsp (t) {
 
     mesMg.sendWebdbUserInfo();
     mesMg.sendUserEventReq();
-    //NobleServer
+    mesMg.sendNobleServer();
     mesMg.sendEnterChannelReq();
 
+    
     //vplayerui   33925
+
+    // WSVerifyCookieReq
+
+    //GetCurCheckRoomStatus
+}
+
+function enterRoom () {
+    mesMg.sendEnterRoom();
 }

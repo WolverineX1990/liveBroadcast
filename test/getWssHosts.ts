@@ -9,7 +9,7 @@ export default function test () {
   let cookies = new Cookies();
   checkLogin().then(res => {
     cookies.concat(res.cookie);
-    const playerVer = 1909201810;
+    const playerVer = 1910071223;
     let userId = new HUYA.UserId();
     userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
     userId.sGuid = '';

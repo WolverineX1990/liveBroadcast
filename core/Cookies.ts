@@ -3,13 +3,13 @@ import utils from './../utils/generate32';
 export default class Cookies {
   data: Array<string>= [];
   constructor () {
-    // let session =  Math.random();
-    // let uuid = utils.generate32();
-    // let sids = encodeURIComponent('__rootsid='+ utils.generate32());
-    // this.add(`__yasmid=${session}; path=/`);
-    // this.add(`__yamid_tt1=${session}; path=/`);
-    // this.add(`__yamid_new=${uuid}; path=/`);
-    // this.add(`_yasids=${sids}; path=/`);
+    let session =  Math.random();
+    let uuid = utils.generate32();
+    let sids = encodeURIComponent('__rootsid='+ utils.generate32());
+    this.add(`__yasmid=${session}; path=/`);
+    this.add(`__yamid_tt1=${session}; path=/`);
+    this.add(`__yamid_new=${uuid}; path=/`);
+    this.add(`_yasids=${sids}; path=/`);
   }
 
   get cookie () {
@@ -29,8 +29,13 @@ export default class Cookies {
   }
 
   getCookie (key) {
-    // this.data.filter();
-
+    let strs = this.data.filter(res => {
+      return res.startsWith(key);
+    });
+    if (strs.length) {
+      let str = strs[0].split(';')[0]
+      return str.split('=')[1];
+    }
     return '';
   }
 

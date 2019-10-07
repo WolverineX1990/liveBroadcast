@@ -1,31 +1,14 @@
-import Huya from './core/huya';
+import HuyaIns from './core/HuyaIns';
 
-const id = 19622208;
+global['storage'] = {};
+
+const roomId = 19622208;
+let users = ['16531454346', '16533154856', '17004489272', '17115432968', '17115439863'];
+// let demo = new HuyaIns(roomId, '16533154856', 'hy16533154856');
+// demo.startConnect();
 let arr = [];
-for (let i = 0; i<10; i++) {
-    let hy = new Huya(id);
-    arr.push(hy);
+for (let i = 0; i<5; i++) {
+    let demo = new HuyaIns(roomId, users[i], 'hy'+users[i]);
+    demo.startConnect();
+    arr.push(demo);
 }
-
-// import { getWssHosts } from './api/service';
-// import LiveLaunchReq from './HUYA/LiveLaunchReq';
-// import Wup from './Taf/Wup';
-// import ELiveSource from './HUYA/ELiveSourcet';
-
-// var t = new LiveLaunchReq();
-// // t.tId = G.userId;
-// t.tLiveUB.eSource = ELiveSource.WEB_HUYA;
-// // if (G.useHttps) {
-// //     t.bSupportDomain = 1
-// // }
-
-// let wup = new Wup();
-// wup.setServant("liveui");
-// wup.setFunc("doLaunch");
-// wup.writeStruct("tReq", t);
-// let buf = wup.encode().getBuffer();
-// // getWssHosts({}).then(res => {
-// //   console.log(res);
-// // }, err => {
-// //   console.log(err)
-// // })

@@ -24,7 +24,7 @@ export function get(url, data?: Object, config?: any): Promise<any> {
 					'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
 				}
 			};
-			if(config.headers) {
+			if(config && config.headers) {
 				for(let key in config.headers) {
 					options.headers[key] = config.headers[key];
 				}
