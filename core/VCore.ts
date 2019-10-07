@@ -28,7 +28,7 @@ export default class VCore {
       var i = new Taf.Wup;
       i.decode(res);
       i.readStruct("tRsp", e);
-      // console.log(e.sClientIp)
+      console.log(e.sClientIp)
       var r = e.vProxyList.value;
       for (var n = 0, s = r.length; n < s; n++) {
           var o = r[n];
@@ -37,7 +37,7 @@ export default class VCore {
               break
           }
       }
-
+      console.log(this.hosts)
       this.wss = new Wss(this.hosts[2]);
     });
   }

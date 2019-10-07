@@ -64,9 +64,8 @@ export default class MessageManager {
         e.tId = this._userId;
         e.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
         e.bSupportDomain = 1;
-        let vcore = this._vcore;
         console.log(this._userId)
-        vcore.sendWup2('liveui', 'doLaunch', e, res => {
+        this._vcore.sendWup2('liveui', 'doLaunch', e, res => {
             console.log('doLaunch resulet')
             // console.log(res.iTime * 1e3 - Date.now())
             // G.serverTimeGap = t.iTime * 1e3 - Date.now();
@@ -83,7 +82,7 @@ export default class MessageManager {
             if (ENV.roomPayPassword && ENV.roomPayPassword != '') {
                 t.vGroupId.value.push("schat:" + ENV.presenterUid + "-" + ENV.roomPayPassword)
             }
-            vcore.sendRegisterGroup(t)
+            this._vcore.sendRegisterGroup(t)
         });
     }
 
@@ -183,7 +182,7 @@ export default class MessageManager {
         t.tId = this.userId;
         t.lPresenterId = ENV.presenterUid;
         this._vcore.sendWup2("presenterui", "getPresenterLiveScheduleInfo", t, () => {
-
+            // console.log()
         });
     }
     
