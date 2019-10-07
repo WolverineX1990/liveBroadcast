@@ -159,7 +159,6 @@ export default class HuyaIns {
 
   initWssHost() {
     return checkLogin(this.cookies.value).then(res => {
-      console.log('checklogin', res)
       this.cookies.concat(res.cookie);
       this.userId.sCookie = this.cookies.value;
       return this.vcore.initWssHost();

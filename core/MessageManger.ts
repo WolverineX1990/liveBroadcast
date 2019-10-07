@@ -65,7 +65,9 @@ export default class MessageManager {
         e.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
         e.bSupportDomain = 1;
         let vcore = this._vcore;
+        console.log(this._userId)
         vcore.sendWup2('liveui', 'doLaunch', e, res => {
+            console.log('doLaunch resulet')
             // console.log(res.iTime * 1e3 - Date.now())
             // G.serverTimeGap = t.iTime * 1e3 - Date.now();
             this._userId.sGuid = res.sGuid;
