@@ -129,9 +129,6 @@ export default class MessageManager {
         t.bAnonymous = false;//!isLogin
         t.eTemplateType = 1;
         t.sTraceSource = '';//ENV.platform || "";
-        console.log('ttttttttttttttttttttttttttttt');
-        console.log(this._userId)
-        console.log(this._userId.sCookie.split(';'))
         this._vcore.sendWup2("onlineui", "OnUserEvent", t, (data) => {
             // console.log('ddddddddddddddddddddddddddddddddd')
             // console.log(data)

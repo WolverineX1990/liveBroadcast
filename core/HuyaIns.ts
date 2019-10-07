@@ -82,6 +82,7 @@ export default class HuyaIns {
   }
 
   wssRegisterRsp (t) {
+    console.log('wssRegisterRsp')
     // if (ENV.loginRegister) {
     //     return
     // }
@@ -149,6 +150,7 @@ export default class HuyaIns {
                 });
               } else {
                 console.log(data);
+                console.log(this._userName);
               }
               return this;
             });
