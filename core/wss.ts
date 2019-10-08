@@ -9,7 +9,9 @@ export default class Wss {
     }
 
     start (openFun, messageFun, closeFun) {
-        let ws = new WebSocket(this.host);
+        let ws = new WebSocket(this.host, {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'
+        });
         this.ws = ws;
         ws.on('open', function open() {
             openFun();
