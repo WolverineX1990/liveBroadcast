@@ -4,7 +4,8 @@ global['storage'] = {};
 
 const roomId = 19622208;
 // const roomId = 19322980;
-let users = ['17188945517', '18162814162', '15687472565', '18257431411', '17105112341'];
+// let users = ['17188945517', '18162814162', '15687472565', '18257431411', '17105112341'];
+let users = ['17188945517'];
 // let demo = new HuyaIns(roomId, '17105112341', 'hy17105112341');
 // demo.startConnect();
 let arr = [];
@@ -21,4 +22,5 @@ function enterRoom() {
 }
 
 //开始
-enterRoom();
+let timeout = Math.round(Math.random()*5);
+setTimeout(() => enterRoom(), timeout * 1000);
