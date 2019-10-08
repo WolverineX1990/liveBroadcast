@@ -32,7 +32,7 @@ function enterRoom() {
 // });
 
 //开始
-initConfig(() => {
+initConfig(roomId, () => {
   let timeout = Math.round(Math.random()*5);
   setTimeout(() => enterRoom(), timeout * 1000);
 });

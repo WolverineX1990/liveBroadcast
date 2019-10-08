@@ -132,9 +132,9 @@ export default class MessageManager {
         t.sTraceSource = '';//ENV.platform || "";
         this._vcore.sendWup2("onlineui", "OnUserEvent", t, (data) => {
             // G.userIn = true;
-            console.log('USER_IN')
-            console.log(data)
-            // this._vcore.dispatch('USER_IN');
+            // console.log('USER_IN')
+            // console.log(data)
+            this._vcore.dispatch('USER_IN');
             // G.userInTime = Date.now() - G.userInTime;
             var e = data.iUserHeartBeatInterval * 1e3;
             if (e > 0) {
