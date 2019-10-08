@@ -81,6 +81,7 @@ export function logout(cookie, guid) {
 		url: 'https://udblgn.huya.com/web/v2/logout?' + guid,
 		headers: {
 			cookie
+			// Referer: 'https://udblgn.huya.com/proxy.html'
 		}
 	});
 }
@@ -91,8 +92,8 @@ export function passwordLogin(data) {
     url: 'https://udblgn.huya.com/web/v2/passwordLogin',//请求路径
     method: "POST",//请求方式，默认为get
     headers: {//设置请求头
-			"content-type": "application/json;charset=UTF-8",
-			Referer: 'https://udblgn.huya.com/proxy.html'
+		"content-type": "application/json;charset=UTF-8",
+		Referer: 'https://udblgn.huya.com/web/middle/2.4/39004737/https/829c86d6b3f94532b31b76ec52d31a93'
     },
     body: data//post参数字符串
 	};

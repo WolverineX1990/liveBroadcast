@@ -7,12 +7,15 @@ import { request  } from 'http';
 import { parse as urlParse } from 'url';
 const Taf = require('./../lib/Taf');
 import './../core/HUYAEXT';
+import * as fs from 'fs';
 
-
+if (!fs.existsSync('temp/')) {
+    fs.mkdirSync('temp/');
+} 
 
 
 // sendMes();
 // getWssHosts();
 // getCookies();
-// login();
+login();
 // test1();

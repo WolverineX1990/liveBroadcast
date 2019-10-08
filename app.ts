@@ -7,7 +7,7 @@ const roomId = 19622208;
 // const roomId = 19322980;
 // let users = ['18210355031', '18519203764', '17105112341'];
 
-let users = [18519203764];
+let users = ['17701342615'];
 let arr = [];
 function enterRoom() {
   console.log('enterRoom');
@@ -21,15 +21,15 @@ function enterRoom() {
   }
 }
 //退出
-process.on('SIGINT', function () {
-  console.log('Exit now!');
-  let prommises = [];
-  arr.map(demo => prommises.push(demo.userLogout()))
-  Promise.all(prommises).then(res => {
-    console.log('Exit success!');
-    process.exit();
-  });
-});
+// process.on('SIGINT', function () {
+//   console.log('Exit now!');
+//   let prommises = [];
+//   arr.map(demo => prommises.push(demo.userLogout()))
+//   Promise.all(prommises).then(res => {
+//     console.log('Exit success!');
+//     process.exit();
+//   });
+// });
 
 //开始
 initConfig(() => {

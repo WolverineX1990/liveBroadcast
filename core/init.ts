@@ -2,8 +2,8 @@ import { getRoomHtml } from './../api/service';
 import CONFIG from './../const/CONFIG';
 import ENV from './../const/ENV';
 
-export function initConfig(func) {
-  getRoomHtml(CONFIG.host + this._roomId).then(html => {
+export function initConfig(roomId, func) {
+  getRoomHtml(CONFIG.host + roomId).then(html => {
     
     let TT_ROOM_DATA = getJsonByKey(html, 'TT_ROOM_DATA');
     let TT_PLAYER_CFG = getJsonByKey(html, 'TT_PLAYER_CFG');

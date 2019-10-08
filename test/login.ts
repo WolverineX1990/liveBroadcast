@@ -1,16 +1,16 @@
 import { passwordLogin, getImgCaptcha, getCodeByPicId, uploadCodeImg, verifyiIgCaptcha } from './../api/service';
 import sha1 from './../core/sha1';
 import userJson from './../const/userJson';
-import baiduClient from './../core/baiduApi';
+// import baiduClient from './../core/baiduApi';
 var fs = require('fs');
-var images = require("images");
-const Tesseract = require('tesseract.js');
+// var images = require("images");
+// const Tesseract = require('tesseract.js');
 import generate from './../utils/generate32';
 import VerifyiIgCaptcha from './../core/VerifyiIgCaptcha';
 
 export default function test () {
-    userJson.data.userName = '13282222987';
-    userJson.data.password = sha1('hy13282222987');
+    userJson.data.userName = '15063608061';
+    userJson.data.password = sha1('hy15063608061');
     // images("a.png").size(400).save('./b.png');
 
     // Tesseract.recognize('./c.png', {
@@ -31,11 +31,12 @@ export default function test () {
         let data = JSON.parse(res.data);
         console.log(data)
 
-        if (data.returnCode === 10030) {
+        if (data.returnCode) {
             let info = data.data.strategys[0];
-            var d = new VerifyiIgCaptcha(info, () => {
-                console.log(1)
-            });
+            console.log(info)
+            // var d = new VerifyiIgCaptcha(info, () => {
+            //     console.log(1)
+            // });
         }
     });
 }

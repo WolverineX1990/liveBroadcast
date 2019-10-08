@@ -15,7 +15,7 @@ export default class HuyaIns {
   _roomId
   _userName
   _pwd
-  cookies = new Cookies()
+  cookies
   userId
   vcore= new VCore()
   mesMg= new MessageManger()
@@ -24,7 +24,11 @@ export default class HuyaIns {
     this._roomId = roomId;
     this._userName = userName;
     this._pwd = pwd;
-    this.cookies.add('isInLiveRoom=true;');
+    if (userName) {
+      this.cookies = new Cookies(userName);
+    } else {
+      this.cookies = new Cookies();
+    }
   }
 
   tt () {
@@ -35,8 +39,17 @@ export default class HuyaIns {
     this.vcore.addListener("USER_LOGINED", () => {
       this.initWssHost()
         .then(() => this.addListener())
-        .then(() => this.vcore.wsStart());
+        .then(() => this.vcore.wsStart())
+        .catch(err => {
+          if (err == 'noLogined') {
+            this.cookies.clear();
+            this.startConnect();
+          } else {
+            console.log('err->', err);
+          }
+        })
     });
+    
     this.userLogin();
   }
 
@@ -54,11 +67,16 @@ export default class HuyaIns {
     this.vcore.addListener("8001", () => {
       console.log('结束直播。。。')
     });
+
+    this.vcore.addListener("8006", function(t) {
+      console.log('=================count'+t.iAttendeeCount);
+      
+  });
   }
   pingInter
   wssConnected() {
     //正在直播
-    if (true) {
+    if (ENV.roomState == 'ON') {
       this.mesMg.sendGetPresenterLiveScheduleInfoReq();
     }
     this.mesMg.sendLivingInfoReq();
@@ -75,7 +93,7 @@ export default class HuyaIns {
   }
 
   wssRegisterRsp (t) {
-    console.log('wssRegisterRsp')
+    console.log('=======wssRegisterRsp')
     // if (ENV.loginRegister) {
     //     return
     // }
@@ -135,6 +153,13 @@ export default class HuyaIns {
     if (this._userName) {
       userJson.data.userName = this._userName;
       userJson.data.password = sha1(this._pwd);
+      if (this.cookies.isLogin) {
+        //从本地cookie读取
+        this.userId.sCookie = this.cookies.value;
+        this.userId.lUid = parseInt(this.cookies.getCookie("yyuid")) || parseInt(this.cookies.getCookie("udb_uid")) || 0;
+        this.vcore.dispatch('USER_LOGINED');
+        return;
+      }
       return passwordLogin(JSON.stringify(userJson))
             .then((res) => {
               //biztoken uid sign
@@ -156,11 +181,14 @@ export default class HuyaIns {
                   });
                 });
               } else {
+                // || data.returnCode === 10039
                 console.log(data);
                 console.log(this._userName);
               }
               return this;
             });
+    } else {
+      this.vcore.dispatch('USER_LOGINED');
     }
   }
 
@@ -176,7 +204,14 @@ export default class HuyaIns {
 
   initWssHost() {
     return checkLogin(this.cookies.value).then(res => {
-      this.cookies.concat(res.cookie);
+      let json = JSON.parse(res.data);
+      if (!json.isLogined) {
+        throw 'noLogined';
+      }
+      
+      if (res.cookie) {
+        this.cookies.concat(res.cookie);
+      }
       this.userId.sCookie = this.cookies.value;
       return this.vcore.initWssHost();
     });
