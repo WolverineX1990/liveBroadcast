@@ -8,7 +8,7 @@ OnClientReady
 
 OnUserEvent
 
-getLivingStreamInfo
+getLivingStreamInfo 重要
 
 
 
