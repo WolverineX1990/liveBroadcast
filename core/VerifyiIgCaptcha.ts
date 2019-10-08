@@ -39,9 +39,13 @@ export default class VerifyiIgCaptcha {
       }
     })).then(res => {
         let data = JSON.parse(res);
-        console.log(data)
         if (!data.returnCode) {
-          this._fun();
+          if (data.data.nextAction == 2) {
+            console.log(data);
+          } else {
+            console.log(data);
+            this._fun();
+          }
         } else {
           this.start();
         }
