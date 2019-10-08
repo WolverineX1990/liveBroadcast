@@ -14,7 +14,7 @@ global['storage'] = {
 
 };
 
-let ws = new WebSocket('ws://47.111.151.170:8088', {
+let ws = new WebSocket('ws://47.111.151.170:8080', {
   origin: 'https://www.huya.com',
   'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'
 });
