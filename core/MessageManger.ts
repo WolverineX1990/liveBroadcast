@@ -35,7 +35,7 @@ export default class MessageManager {
         i.sTraceSource = null;
         i.sPassword = ENV.roomPayPassword;
         this._vcore.sendWup2('liveui', 'getLivingInfo', i, function(t) {
-            // console.log(t);
+            console.log(t);
         });
     }
 
@@ -64,7 +64,7 @@ export default class MessageManager {
         e.tId = this._userId;
         e.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
         e.bSupportDomain = 1;
-        console.log(this._userId)
+        // console.log(this._userId)
         this._vcore.sendWup2('liveui', 'doLaunch', e, res => {
             console.log('doLaunch resulet')
             // console.log(res.iTime * 1e3 - Date.now())
