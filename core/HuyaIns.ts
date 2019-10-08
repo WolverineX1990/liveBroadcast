@@ -7,6 +7,7 @@ import sha1 from './../core/sha1';
 const HUYA = require('./../lib/HUYA');
 import userJson from './../const/userJson';
 import VerifyiIgCaptcha from './VerifyiIgCaptcha';
+import ReportDetail from './../core/ReportDetail';
 
 const playerVer = 1910071223;
 
@@ -18,6 +19,7 @@ export default class HuyaIns {
   userId
   vcore= new VCore()
   mesMg= new MessageManger()
+  reportDetail= new ReportDetail()
   constructor (roomId , userName?, pwd?) {
     this._roomId = roomId;
     this._userName = userName;
@@ -79,6 +81,7 @@ export default class HuyaIns {
       times: 0
     };
     this.pingInter = setInterval(this.ping.bind(this), 10, config);
+    setInterval(this.reportDetailV2.bind(this), 2e4)
   }
 
   wssRegisterRsp (t) {
@@ -110,6 +113,10 @@ export default class HuyaIns {
 
   enterRoom () {
     this.mesMg.sendEnterRoom();
+  }
+
+  reportDetailV2() {
+    this.reportDetail.reportDetailV2(this.userId);
   }
 
   ping(config) {

@@ -12,6 +12,20 @@ export function getRoomHtml(url) {
 	return request(options)
 }
 
+export function reportDetail(data) {
+	let options = {
+		url: 'https://statwup.huya.com/?timestamp='+(new Date).getTime(),
+		headers: {
+			// cookie: cookieVal
+		},
+		encoding: null,
+    method: "POST",
+    body: toBuffer(data)
+	};
+
+	return request(options).then(res => toArrayBuffer(res))
+}
+
 export function getWssHosts(data, cookieVal) {
 	let options = {
 		url: CONFIG.wupHost,
