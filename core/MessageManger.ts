@@ -35,7 +35,7 @@ export default class MessageManager {
         i.sTraceSource = null;
         i.sPassword = ENV.roomPayPassword;
         this._vcore.sendWup2('liveui', 'getLivingInfo', i, function(t) {
-            console.log(t);
+            // console.log(t);
         });
     }
 
