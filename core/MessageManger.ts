@@ -131,9 +131,8 @@ export default class MessageManager {
         t.eTemplateType = 1;
         t.sTraceSource = '';//ENV.platform || "";
         this._vcore.sendWup2("onlineui", "OnUserEvent", t, (data) => {
-            // console.log('ddddddddddddddddddddddddddddddddd')
-            // console.log(data)
             // G.userIn = true;
+            this._vcore.dispatch('USER_IN');
             // G.userInTime = Date.now() - G.userInTime;
             var e = data.iUserHeartBeatInterval * 1e3;
             if (e > 0) {
@@ -208,5 +207,16 @@ export default class MessageManager {
             //           })
             //       }
         });
+    }
+
+    sendMessage() {
+        var t = new HUYA.SendMessageReq;
+        t.tUserId = this._userId;
+        t.lTid = ENV.topsid;
+        t.lSid = ENV.subsid;
+        t.lPid = ENV.presenterUid;
+        t.sContent = 'llll';
+        // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
+        this._vcore.sendWup("liveui", "sendMessage", t);
     }
 }

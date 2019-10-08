@@ -1,15 +1,15 @@
-import { passwordLogin, getRoomHtml, checkLogin } from './../api/service';
+import { passwordLogin, checkLogin, logout } from './../api/service';
 import Cookies from './../core/Cookies';
-import CONFIG from './../const/CONFIG';
 import VCore from './../core/VCore';
 import MessageManger from './../core/MessageManger';
 import sha1 from './../core/sha1';
 const HUYA = require('./../lib/HUYA');
 import userJson from './../const/userJson';
 import VerifyiIgCaptcha from './VerifyiIgCaptcha';
+import VerifyiIgPhoneCode from './VerifyiIgPhoneCode';
 import ReportDetail from './../core/ReportDetail';
-
-const playerVer = 1910071223;
+import ENV from './../const/ENV';
+import { guid } from './../utils';
 
 export default class HuyaIns {
   _roomId
@@ -37,19 +37,7 @@ export default class HuyaIns {
         .then(() => this.addListener())
         .then(() => this.vcore.wsStart());
     });
-    this.initConfig()
-        .then(() => this.userLogin());
-  }
-
-  initConfig() {
-    return getRoomHtml(CONFIG.host + this._roomId).then(html => {
-      // let $ = LoadHtml(html);
-      // let context;
-      // $('script').each(function(index, script) {
-      //   context = $(script).html();
-      //   console.log(context)
-      // });
-    });
+    this.userLogin();
   }
 
   addListener() {
@@ -57,6 +45,8 @@ export default class HuyaIns {
       this.cookies.add('guid='+guid);
       this.userId.sCookie = this.cookies.value;
     });
+
+    this.vcore.addListener('USER_IN', this.sendMessage.bind(this))
     this.vcore.addListener("WEBSOCKET_CONNECTED", this.wssConnected.bind(this));
     this.vcore.addListener("WSRegisterRsp", this.wssRegisterRsp.bind(this));
     this.vcore.addListener("WSRegisterGroupRsp", this.wssRegisterRsp.bind(this));
@@ -127,12 +117,18 @@ export default class HuyaIns {
     }
   }
 
+  userLogout() {
+    return logout(this.cookies.value, guid(1))
+              .then(() => checkLogin(this.cookies.value))
+              .then(res => console.log(res));
+  }
+
   userLogin() {
     let userId = this.userId = new HUYA.UserId();
     userId.lUid = 0;
     userId.sGuid = '';
     userId.sToken = '';
-    userId.sHuYaUA = "webh5&" + playerVer + "&websocket";
+    userId.sHuYaUA = "webh5&" + ENV.playerVer + "&websocket";
     this.vcore.userId = userId;
     this.mesMg.vcore = this.vcore;
     this.mesMg.userId = this.userId;
@@ -154,6 +150,10 @@ export default class HuyaIns {
                 let verifyiIgCaptcha = new VerifyiIgCaptcha(info, () => {
                   console.log('verifyiIgCaptcha success');
                   this.userLogin();
+                }, () => {
+                  let phoneVer = new VerifyiIgPhoneCode(this._userName, () => {
+
+                  });
                 });
               } else {
                 console.log(data);
@@ -162,6 +162,16 @@ export default class HuyaIns {
               return this;
             });
     }
+  }
+
+  sendMessage() {
+    // let time = 3 * 60 + Math.round(Math.random()* 2 * 60 );
+    let time = 5 + Math.round(Math.random() * 6 );
+    setTimeout(() => {
+      this.mesMg.sendMessage();
+      console.log('发送弹幕');
+      this.sendMessage();
+    }, 1000 * time);
   }
 
   initWssHost() {

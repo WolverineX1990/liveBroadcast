@@ -5,10 +5,12 @@ export default class VerifyiIgCaptcha {
   _picid
   _info
   _fun
+  _fun1
   captchaID
-  constructor(info, fun) {
+  constructor(info, fun, fun1) {
     this._info = info;
     this._fun = fun;
+    this._fun1 = fun1;
     this.start();
   }
 
@@ -41,7 +43,7 @@ export default class VerifyiIgCaptcha {
         let data = JSON.parse(res);
         if (!data.returnCode) {
           if (data.data.nextAction == 2) {
-            console.log(data);
+            this._fun1();
           } else {
             console.log(data);
             this._fun();
@@ -56,7 +58,7 @@ export default class VerifyiIgCaptcha {
     getCodeByPicId({picid: this._picid}).then(res => {
         let msg = JSON.parse(res).msg;
         if (!msg) {
-            console.log('polling')
+            console.log('polling code');
             setTimeout(() => this.polling(), 3000);
         } else {
             this.pollSuc(msg)

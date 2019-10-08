@@ -1,6 +1,9 @@
 export default  {
-  presenterUid: 1199521503354,
-  topsid: 1199521503354,
-  subsid: 1199521503354,
-  roomPayPassword: ''
+  presenterUid: 0,
+  pyyid: 0,
+  topsid: 0,
+  subsid: 0,
+  roomPayPassword: '',
+  playerVer: 0,
+  roomState: ''
 }

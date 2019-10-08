@@ -52,6 +52,18 @@ export function getCodeByPicId (data) {
 	});
 }
 
+export function sendPhone (phone) {
+	return request({
+		url: `http://test.hisway365.com:8098/phoneController/sendphone?phone=${phone}`
+	});
+}
+
+export function getCodeByPhone (phone) {
+	return request({
+		url: `http://test.hisway365.com:8098/fileController/getcodebypicid?phone=${phone}`
+	});
+}
+
 export function uploadCodeImg(data) {
 	let options = {
     url: 'http://test.hisway365.com:8098/fileController/upload',//请求路径
@@ -64,6 +76,15 @@ export function uploadCodeImg(data) {
 	return request(options);
 }
 
+export function logout(cookie, guid) {
+	return request({
+		url: 'https://udblgn.huya.com/web/v2/logout?' + guid,
+		headers: {
+			cookie
+		}
+	});
+}
+
 export function passwordLogin(data) {
 	let options = {
 		getCookies: true,
@@ -71,7 +92,7 @@ export function passwordLogin(data) {
     method: "POST",//请求方式，默认为get
     headers: {//设置请求头
 			"content-type": "application/json;charset=UTF-8",
-			Referer: 'https://udblgn.huya.com/web/middle/2.4/39004737/https/829c86d6b3f94532b31b76ec52d31a93'
+			Referer: 'https://udblgn.huya.com/proxy.html'
     },
     body: data//post参数字符串
 	};
@@ -102,3 +123,5 @@ export function getImgCaptcha(data) {
 	};
 	return request(options);
 }
+
+// http://test.hisway365.com:8098/talkController/talkrandom

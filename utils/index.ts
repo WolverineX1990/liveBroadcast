@@ -31,6 +31,15 @@ export function getHtml(targetUrl: string) {
 	return promise;
 }
 
+export function guid(e) {
+	var t = new Date;
+	return e && 1 == e ? Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes(), t.getSeconds(), t.getMilliseconds()) - Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), 0, 0, 0, 0) : e && 2 == e ? Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes(), t.getSeconds(), t.getMilliseconds()) : "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function(e) {
+			var t = 16 * Math.random() | 0
+				, o = "x" == e ? t : 3 & t | 8;
+			return o.toString(16)
+	})
+}
+
 export function uuid(len, radix) {
 	var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 	var uuid = [],

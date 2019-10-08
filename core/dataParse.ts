@@ -68,7 +68,7 @@ export default function dataParse (e, vcore) {
                     h.iRequestId = d.iRequestId
                 }
                 var m = d.sFuncName;
-                console.log(m)
+                console.log('fun_name' + m)
                 vcore.dispatch(d.iRequestId > 0 ? m + d.iRequestId : m, h)
             } else {
                 vcore.dispatch(d.sFuncName);
@@ -84,7 +84,7 @@ export default function dataParse (e, vcore) {
             var w = I.iUri;
             i = new Taf.JceInputStream(I.sMsg.buffer);
             var y = TafMx.UriMapping[I.iUri];
-            console.log(y)
+            // console.log(y)
             if (y) {
                 var v = new y;
                 v.readFrom(i);

@@ -7,14 +7,13 @@ import { toArrayBuffer } from './../utils/buffer';
 
 export default function test () {
   let cookies = new Cookies();
-  checkLogin().then(res => {
+  checkLogin(null).then(res => {
     cookies.concat(res.cookie);
-    const playerVer = 1910071223;
     let userId = new HUYA.UserId();
     userId.lUid = parseInt(cookies.getCookie("yyuid")) || parseInt(cookies.getCookie("udb_uid")) || 0,
     userId.sGuid = '';
     userId.sToken = '';
-    userId.sHuYaUA = "webh5&" + playerVer + "&websocket";
+    userId.sHuYaUA = "webh5&1910071223&websocket";
     userId.sCookie = cookies.value;
     sendAjax(userId, cookies);
   });

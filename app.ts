@@ -1,11 +1,13 @@
 import HuyaIns from './core/HuyaIns';
+import { initConfig } from './core/init';
 
 global['storage'] = {};
 
 const roomId = 19622208;
 // const roomId = 19322980;
-let users = ['17188945517', '18162814162', '15687472565', '18257431411', '17105112341'];
+// let users = ['18210355031', '18519203764', '17105112341'];
 
+let users = [18519203764];
 let arr = [];
 function enterRoom() {
   console.log('enterRoom');
@@ -18,7 +20,19 @@ function enterRoom() {
     setTimeout(() => enterRoom(), timeout * 1000);
   }
 }
+//退出
+process.on('SIGINT', function () {
+  console.log('Exit now!');
+  let prommises = [];
+  arr.map(demo => prommises.push(demo.userLogout()))
+  Promise.all(prommises).then(res => {
+    console.log('Exit success!');
+    process.exit();
+  });
+});
 
 //开始
-let timeout = Math.round(Math.random()*5);
-setTimeout(() => enterRoom(), timeout * 1000);
+initConfig(() => {
+  let timeout = Math.round(Math.random()*5);
+  setTimeout(() => enterRoom(), timeout * 1000);
+});
