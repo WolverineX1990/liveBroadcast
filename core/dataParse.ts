@@ -68,7 +68,7 @@ export default function dataParse (e, vcore) {
                     h.iRequestId = d.iRequestId
                 }
                 var m = d.sFuncName;
-                console.log('fun_name:' + m)
+                console.log('fun_name:' + m + ';iRequestId:'+ d.iRequestId);
                 vcore.dispatch(d.iRequestId > 0 ? m + d.iRequestId : m, h)
             } else {
                 vcore.dispatch(d.sFuncName);

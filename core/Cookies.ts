@@ -42,7 +42,7 @@ export default class Cookies {
   }
 
   get value() {
-    return this.data.map(str =>str.split(';')[0]).join(';');
+    return this.data.map(str =>str.split(';')[0]).join('; ');
   }
 
   add (value) {

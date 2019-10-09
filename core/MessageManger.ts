@@ -109,8 +109,11 @@ export default class MessageManager {
         t.sPassport = username;
         t.sAccount = 0;
         t.bCacheFirst = true;
-        this._vcore.sendWup2("liveui", "getWebdbUserInfo", t, function(data) {
+        this._vcore.sendWup2("liveui", "getWebdbUserInfo", t, data => {
             // G.userInfo = t.tUserInfo;
+            // console.log(data);
+            // console.log('dddddddddddddddd')
+            this._vcore.dispatch('gamelivePubTextInitComplete');
             // console.log(data)
         })
     }
@@ -163,7 +166,7 @@ export default class MessageManager {
         let m = 0;
         this._vcore.sendWup2("onlineui", "OnUserHeartBeat", e, (data) => {
             var e = data.iRet;
-            console.log(e)
+            // console.log(e)
             var i = (new Date).getTime();
             I = i - w
         }, true, ++m);
@@ -218,6 +221,8 @@ export default class MessageManager {
         t.lPid = ENV.presenterUid;
         t.sContent = 'llll';
         // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
+        // console.log('###########################');
+        // console.log(t)
         this._vcore.sendWup("liveui", "sendMessage", t);
     }
 
@@ -247,5 +252,19 @@ export default class MessageManager {
         s ? r.lPresenterUid = Number(s) : (r.lTopSid = Number(info.sid),
                         r.lSubSid = Number(i))
         this._vcore.sendWup("liveui", "getLivingStreamInfo", r);
+    }
+
+    getRMessageListWb() {
+        let t = new HUYA.GetRMessageListWbReq;
+        let n = new HUYA.RMessageSceneWb;
+        n.sLiveId = ENV.liveId;
+        n.lPid = ENV.presenterUid;
+        n.lTid = ENV.topsid;
+        n.lSid = ENV.subsid;
+        t.tId = this._userId;
+        t.tScene = n;
+        this._vcore.sendWup2("mobileui", "getRMessageListWb", t, e => {
+
+        });
     }
 }

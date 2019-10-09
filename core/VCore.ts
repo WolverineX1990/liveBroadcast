@@ -3,6 +3,7 @@ const HUYA = require('./../lib/HUYA');
 import Wss from './wss';
 import dataParse from './dataParse';
 import { getWssHosts } from './../api/service';
+import { toBuffer, toArrayBuffer } from './../utils/buffer';
 
 export default class VCore {
   private eventsMap: any= {}
@@ -126,6 +127,10 @@ export default class VCore {
     l.vData = s.encode();
     var stream = new Taf.JceOutputStream();
     l.writeTo(stream);
+    if (e == 'sendMessage') {
+      console.log('2222222222222222222222')
+      console.log(String.fromCharCode.apply(null, new Uint16Array(toBuffer(stream.getBuffer()))))
+    }
     this.wss.sendBuf(stream.getBuffer());
   }
 

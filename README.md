@@ -1,10 +1,22 @@
+getPropsList
+
+rWeekStarPropsId
+
+getWebdbUserInfo
+
+getFirstRechargePkgStatus
+
+etTreasureBoxIn
+
 BeginLiveNotice
 
 GetCurCheckRoomStatus
 
 getUserSetting
 
-getRMessageListWb
+getUserSetting
+
+
 
 
 ##############issue##############

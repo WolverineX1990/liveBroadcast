@@ -15,7 +15,7 @@ export function initConfig(roomId, func) {
     if (stream && stream.data && stream.data.length) {
       let a = stream.data[0].gameLiveInfo;
       let b = stream.data[0].gameStreamInfoList[0];
-      ENV.liveid = a.liveId;
+      ENV.liveId = a.liveId;
       ENV.SrcBitRate = a.bitRate;
       ENV.sStreamName = b.sStreamName;
       ENV.videoLine = b.iLineIndex;

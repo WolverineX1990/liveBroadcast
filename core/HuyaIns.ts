@@ -55,14 +55,16 @@ export default class HuyaIns {
 
   addListener() {
     this.vcore.addListener('setGuid', (guid) =>{
-      this.cookies.add('guid='+guid);
+      if (!this.cookies.getCookie('guid')) {
+        this.cookies.add('guid='+guid);  
+      }
       this.userId.sCookie = this.cookies.value;
 
       //开始拉取视频
       this.mesMg.getLivingStreamInfo();
     });
 
-    this.vcore.addListener('USER_IN', this.sendMessage.bind(this))
+    this.vcore.addListener('gamelivePubTextInitComplete', this.sendMessage.bind(this))
     this.vcore.addListener("WEBSOCKET_CONNECTED", this.wssConnected.bind(this));
     this.vcore.addListener("WSRegisterRsp", this.wssRegisterRsp.bind(this));
     this.vcore.addListener("WSRegisterGroupRsp", this.wssRegisterRsp.bind(this));
@@ -78,6 +80,11 @@ export default class HuyaIns {
     this.vcore.addListener("8103", this.livingStreamEndNotice.bind(this));
     this.vcore.addListener("getLivingStreamInfo", e => {
       e && e.bIsLiving ? this.livingStreamInfoNotice(e.tNotice) : console.log("GetLivingStreamInfoReq xxxxxxx no living")
+    });
+
+    this.vcore.addListener("sendMessage", e => {
+      console.log('***************************')
+      console.log(e)
     });
   }
 
@@ -160,8 +167,6 @@ export default class HuyaIns {
   userLogin() {
     let userId = this.userId = new HUYA.UserId();
     userId.lUid = 0;
-    userId.sGuid = '';
-    userId.sToken = '';
     userId.sHuYaUA = "webh5&" + ENV.playerVer + "&websocket";
     this.vcore.userId = userId;
     this.mesMg.vcore = this.vcore;
@@ -172,6 +177,7 @@ export default class HuyaIns {
       if (this.cookies.isLogin) {
         //从本地cookie读取
         this.userId.sCookie = this.cookies.value;
+        this.userId.sGuid = this.cookies.getCookie('guid');
         this.userId.lUid = parseInt(this.cookies.getCookie("yyuid")) || parseInt(this.cookies.getCookie("udb_uid")) || 0;
         this.vcore.dispatch('USER_LOGINED');
         return;
@@ -181,7 +187,7 @@ export default class HuyaIns {
               //biztoken uid sign
               let data = JSON.parse(res.data);
               var t = "vplayer_sbanner_" + ENV.topsid + "_" + ENV.subsid;
-              if (!this.cookies.get(t)) {
+              if (!this.cookies.getCookie(t)) {
                 this.cookies.add(t+'=1; ');
               }
               if (!data.returnCode) {
