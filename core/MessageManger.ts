@@ -64,7 +64,6 @@ export default class MessageManager {
         e.tId = this._userId;
         e.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
         e.bSupportDomain = 1;
-        // console.log(this._userId)
         this._vcore.sendWup2('liveui', 'doLaunch', e, res => {
             console.log('doLaunch resulet')
             // console.log(res.iTime * 1e3 - Date.now())
@@ -220,5 +219,33 @@ export default class MessageManager {
         t.sContent = 'llll';
         // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
         this._vcore.sendWup("liveui", "sendMessage", t);
+    }
+
+    uuid = 0
+    getLivingStreamInfo() {
+        console.log('getLivingStreamInfo');
+        0 === this.uuid && (this.uuid = Number((Date.now() % 1e10 * 1e3 + (1e3 * Math.random() | 0)) % 4294967295));
+        let info = {
+            "uuid": this.uuid,
+            "type":1,//FLV
+            "lineType": ENV.videoLine,
+            "curBitrate": ENV.SrcBitRate,
+            "originalBitrate": ENV.SrcBitRate ? 0: 1,
+            "uid": ENV.yyuid,
+            "sid": ENV.topsid,
+            "subSid":ENV.subsid,
+            "presenterUid": ENV.presenterUid,
+            "url":"https://al.flv.huya.com/huyalive/1199521503354-1199521503354-5264031189219409920-2399043130164-10057-A-0-1.flv?wsSecret=c7ed7353471e22f62810201ff951baf3&wsTime=5d9d4bdc&fs=bgct",//flv
+            "domainList":[],
+            "inited":true
+        };
+        let s = info.presenterUid;// || info.pid;
+        let i = info.subSid;// || info.subsid;
+        let r = new HUYA.GetLivingStreamInfoReq;
+        r.tId = this._userId;
+        0 == r.tId.lUid && (r.tId.lUid = this.uuid),
+        s ? r.lPresenterUid = Number(s) : (r.lTopSid = Number(info.sid),
+                        r.lSubSid = Number(i))
+        this._vcore.sendWup("liveui", "getLivingStreamInfo", r);
     }
 }

@@ -3,7 +3,7 @@ import Cookies from './../core/Cookies';
 import VCore from './../core/VCore';
 import MessageManger from './../core/MessageManger';
 import sha1 from './../core/sha1';
-const HUYA = require('./../lib/HUYA');
+import HUYA from './../core/HUYAEXT';
 import userJson from './../const/userJson';
 import VerifyiIgCaptcha from './VerifyiIgCaptcha';
 import VerifyiIgPhoneCode from './VerifyiIgPhoneCode';
@@ -57,6 +57,9 @@ export default class HuyaIns {
     this.vcore.addListener('setGuid', (guid) =>{
       this.cookies.add('guid='+guid);
       this.userId.sCookie = this.cookies.value;
+
+      //开始拉取视频
+      this.mesMg.getLivingStreamInfo();
     });
 
     this.vcore.addListener('USER_IN', this.sendMessage.bind(this))
@@ -68,11 +71,24 @@ export default class HuyaIns {
       console.log('结束直播。。。')
     });
 
-    this.vcore.addListener("8006", function(t) {
-      console.log('=================count'+t.iAttendeeCount);
-      
-  });
+    this.vcore.addListener("8006", t => {
+      console.log('=================count'+t.iAttendeeCount);   
+    });
+    this.vcore.addListener("8102", this.livingStreamInfoNotice.bind(this));
+    this.vcore.addListener("8103", this.livingStreamEndNotice.bind(this));
+    this.vcore.addListener("getLivingStreamInfo", e => {
+      e && e.bIsLiving ? this.livingStreamInfoNotice(e.tNotice) : console.log("GetLivingStreamInfoReq xxxxxxx no living")
+    });
   }
+
+  livingStreamInfoNotice (e) {
+    console.log(e.mStreamInfo.value);
+  }
+
+  livingStreamEndNotice(e) {
+    console.log('livingStreamEndNotice'+ e.sStreamName);
+  }
+
   pingInter
   wssConnected() {
     //正在直播
@@ -164,6 +180,10 @@ export default class HuyaIns {
             .then((res) => {
               //biztoken uid sign
               let data = JSON.parse(res.data);
+              var t = "vplayer_sbanner_" + ENV.topsid + "_" + ENV.subsid;
+              if (!this.cookies.get(t)) {
+                this.cookies.add(t+'=1; ');
+              }
               if (!data.returnCode) {
                 this.cookies.concat(res.cookies.headers['set-cookie']);
                 this.userId.sCookie = this.cookies.value;

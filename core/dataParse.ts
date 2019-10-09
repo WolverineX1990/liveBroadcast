@@ -1,6 +1,6 @@
 const Taf = require('./../lib/Taf');
-const HUYA = require('./../lib/HUYA');
-const TafMx = require('./../lib/TafMx');
+import HUYA from './../core/HUYAEXT';
+import TafMx from './../core/TafMxEXT';
 
 export default function dataParse (e, vcore) {
     // if (localStorage.__wup > 1) {

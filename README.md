@@ -1,27 +1,13 @@
-enterPayLiveRoom  BeginLiveNotice
+BeginLiveNotice
 
-chat
+GetCurCheckRoomStatus
 
-getWebdbUserInfo
+getUserSetting
 
-OnClientReady
-
-OnUserEvent
-
-getLivingStreamInfo 重要
+getRMessageListWb
 
 
-
-
-
-
-
-
-
-
-
-
-
-PropsUIServer
-
-getPresenterLiveScheduleInfo
+##############issue##############
+1、无法进入房间
+lTid lSid错误
+2、

@@ -27,6 +27,10 @@ export default class Cookies {
       this.data.push(`__yamid_new=${uuid}; path=/`);
       this.data.push(`_yasids=${sids}; path=/`);
       this.data.push('isInLiveRoom=true;');
+      this.data.push('SoundValue=0.50;');
+      this.data.push('alphaValue=0.80;');
+      this.data.push('udb_passdata=3;');
+      
       // if (id) {
       //   fs.writeFileSync(dir + id, this.data.join('\r\n'));
       // }
@@ -34,7 +38,7 @@ export default class Cookies {
   }
 
   get cookie () {
-    return this.data.join(';')
+    return this.data.join('; ')
   }
 
   get value() {
