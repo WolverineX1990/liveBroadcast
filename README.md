@@ -14,7 +14,6 @@ GetCurCheckRoomStatus
 
 getUserSetting
 
-getUserSetting
 
 
 

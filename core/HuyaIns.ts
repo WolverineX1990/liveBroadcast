@@ -64,7 +64,10 @@ export default class HuyaIns {
       this.mesMg.getLivingStreamInfo();
     });
 
-    this.vcore.addListener('gamelivePubTextInitComplete', this.sendMessage.bind(this))
+    this.vcore.addListener('gamelivePubTextInitComplete', () => {
+      this.mesMg.getRMessageListWb();
+      this.sendMessage();
+    })
     this.vcore.addListener("WEBSOCKET_CONNECTED", this.wssConnected.bind(this));
     this.vcore.addListener("WSRegisterRsp", this.wssRegisterRsp.bind(this));
     this.vcore.addListener("WSRegisterGroupRsp", this.wssRegisterRsp.bind(this));
