@@ -1,8 +1,5 @@
-getPropsList
 
 rWeekStarPropsId
-
-getWebdbUserInfo
 
 getFirstRechargePkgStatus
 
@@ -13,8 +10,6 @@ BeginLiveNotice
 GetCurCheckRoomStatus
 
 getUserSetting
-
-
 
 
 

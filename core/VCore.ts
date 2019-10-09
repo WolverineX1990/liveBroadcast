@@ -4,6 +4,7 @@ import Wss from './wss';
 import dataParse from './dataParse';
 import { getWssHosts } from './../api/service';
 import { toBuffer, toArrayBuffer } from './../utils/buffer';
+import ENV from '../const/ENV';
 
 export default class VCore {
   private eventsMap: any= {}
@@ -24,6 +25,7 @@ export default class VCore {
     wup.setFunc('doLaunch');
     wup.writeStruct('tReq', t);
     let buf = wup.encode().getBuffer();
+    console.log('tttt')
     return getWssHosts(buf, this.userId.sCookie).then(res => {
       var e = new HUYA.LiveLaunchRsp;
       var i = new Taf.Wup;
@@ -38,7 +40,7 @@ export default class VCore {
               break
           }
       }
-      // console.log(this.hosts)
+      console.log(this.hosts)
       this.wss = new Wss(this.hosts[2]);
     });
   }
@@ -127,10 +129,6 @@ export default class VCore {
     l.vData = s.encode();
     var stream = new Taf.JceOutputStream();
     l.writeTo(stream);
-    if (e == 'sendMessage') {
-      console.log('2222222222222222222222')
-      console.log(String.fromCharCode.apply(null, new Uint16Array(toBuffer(stream.getBuffer()))))
-    }
     this.wss.sendBuf(stream.getBuffer());
   }
 
@@ -162,15 +160,17 @@ export default class VCore {
   }
 
   sendWSVerifyCookieReq () {
-    // if (!G.isLogin)
-        //     return;
+    if (!ENV.isLogin) {
+      return
+    }
+    
     var t = new HUYA.WSVerifyCookieReq;
-    t.lUid = this.userId.lUid;//G.yyuid;
-    t.sUA = this.userId.sHuYaUA;//"webh5&" + VER + "&websocket";
-    // t.sCookie = document.cookie;
-    // // t.sGuid = utils.getCookie("guid");
+    t.lUid = ENV.yyuid;
+    t.sUA = this.userId.sHuYaUA;
+    t.sCookie = this.userId.sCookie;
+    t.sGuid = this.userId.sGuid;
     // if (G.registGroup) {
-    //     t.bAutoRegisterUid = 1
+    t.bAutoRegisterUid = 1;
     // }
     var e = new Taf.JceOutputStream;
     t.writeTo(e);
@@ -179,11 +179,13 @@ export default class VCore {
     i.vData = e.getBinBuffer();
     e = new Taf.JceOutputStream;
     i.writeTo(e);
+    console.log('@@@@@@@@@@@@@@@@@@@@@@WSVerifyCookieReq')
     this.wss.sendBuf(e.getBuffer());
   }
 
   wsStart() {
     this.wss.start(() => {
+      this.sendWSVerifyCookieReq();
       this.dispatch("WEBSOCKET_CONNECTED");
     }, (data) => {
       dataParse(data, this);

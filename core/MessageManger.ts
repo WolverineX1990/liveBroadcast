@@ -49,7 +49,7 @@ export default class MessageManager {
         // }
         t.iTemplateType = e;
         t.sVersion = "";
-        t.iAppId = 10057;//ENV.appid;
+        t.iAppId = ENV.appid;
         t.lPresenterUid = ENV.presenterUid;
         t.lSid = ENV.topsid;
         t.lSubSid = ENV.subsid;
@@ -104,7 +104,7 @@ export default class MessageManager {
 
     sendWebdbUserInfo (username) {
         var t = new HUYA.GetWebdbUserInfoReq;
-        // t.lUid = ENV.yyuid;
+        t.lUid = ENV.yyuid;
         t.lImid = 0;
         t.sPassport = username;
         t.sAccount = 0;
@@ -266,5 +266,16 @@ export default class MessageManager {
         this._vcore.sendWup2("mobileui", "getRMessageListWb", t, e => {
 
         });
+    }
+
+    getRctTimedMessage () {
+        var n = new HUYA.GetRctTimedMessageReq;
+        n.tUserId = this.userId,
+        n.lPid = ENV.presenterUid;
+        n.lTid = ENV.topsid;
+        n.lSid = ENV.subsid;
+        this._vcore.sendWup2("mobileui", "getRctTimedMessage", n, function(i) {
+            // console.log(i)
+        })
     }
 }

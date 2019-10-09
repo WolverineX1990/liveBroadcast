@@ -11,7 +11,7 @@ export function initConfig(roomId, func) {
     let hyPlayerConfig = getJsonByKey(html, 'hyPlayerConfig');
     
     let stream = hyPlayerConfig.stream;
-
+    ENV.appid = hyPlayerConfig.vappid;
     if (stream && stream.data && stream.data.length) {
       let a = stream.data[0].gameLiveInfo;
       let b = stream.data[0].gameStreamInfoList[0];

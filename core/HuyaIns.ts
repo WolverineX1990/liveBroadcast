@@ -66,6 +66,7 @@ export default class HuyaIns {
 
     this.vcore.addListener('gamelivePubTextInitComplete', () => {
       this.mesMg.getRMessageListWb();
+      this.mesMg.getRctTimedMessage();
       this.sendMessage();
     })
     this.vcore.addListener("WEBSOCKET_CONNECTED", this.wssConnected.bind(this));
@@ -101,11 +102,8 @@ export default class HuyaIns {
 
   pingInter
   wssConnected() {
-    //正在直播
-    if (ENV.roomState == 'ON') {
-      this.mesMg.sendGetPresenterLiveScheduleInfoReq();
-    }
     this.mesMg.sendLivingInfoReq();
+    this.mesMg.sendGetPresenterLiveScheduleInfoReq();
     this.mesMg.sendDoLaunch();
     this.mesMg.sendPingReq();
     this.mesMg.sendPropsUIServer();
@@ -140,8 +138,6 @@ export default class HuyaIns {
     
     //vplayerui   33925
 
-    // WSVerifyCookieReq
-
     //GetCurCheckRoomStatus
   }
 
@@ -175,16 +171,17 @@ export default class HuyaIns {
     this.mesMg.vcore = this.vcore;
     this.mesMg.userId = this.userId;
     if (this._userName) {
-      userJson.data.userName = this._userName;
-      userJson.data.password = sha1(this._pwd);
       if (this.cookies.isLogin) {
         //从本地cookie读取
+        ENV.isLogin = true;
         this.userId.sCookie = this.cookies.value;
         this.userId.sGuid = this.cookies.getCookie('guid');
         this.userId.lUid = parseInt(this.cookies.getCookie("yyuid")) || parseInt(this.cookies.getCookie("udb_uid")) || 0;
         this.vcore.dispatch('USER_LOGINED');
         return;
       }
+      userJson.data.userName = this._userName;
+      userJson.data.password = sha1(this._pwd);
       return passwordLogin(JSON.stringify(userJson))
             .then((res) => {
               //biztoken uid sign
@@ -194,6 +191,7 @@ export default class HuyaIns {
                 this.cookies.add(t+'=1; ');
               }
               if (!data.returnCode) {
+                ENV.isLogin = true;
                 this.cookies.concat(res.cookies.headers['set-cookie']);
                 this.userId.sCookie = this.cookies.value;
                 this.userId.lUid = parseInt(this.cookies.getCookie("yyuid")) || parseInt(this.cookies.getCookie("udb_uid")) || 0;
