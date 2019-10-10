@@ -179,10 +179,10 @@ export default class HuyaIns {
 
   // 订阅
   subscribe() {
-    getSubscribeStatus(ENV.yyuid, ENV.presenterUid).then(res => {
+    getSubscribeStatus(this.userId.lUid, ENV.presenterUid).then(res => {
       let data = JSON.parse(res);
       if (!data.status) {
-        subscribe(ENV.presenterUid, ENV.yyuid, this.cookies.value).then(res => {
+        subscribe(ENV.presenterUid, this.userId.lUid, this.cookies.value).then(res => {
           console.log(res);
         })
       }

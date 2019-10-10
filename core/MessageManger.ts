@@ -236,7 +236,7 @@ export default class MessageManager {
             "lineType": ENV.videoLine,
             "curBitrate": ENV.SrcBitRate,
             "originalBitrate": ENV.SrcBitRate ? 0: 1,
-            "uid": ENV.yyuid,
+            "uid": this._userId.lUid,
             "sid": ENV.topsid,
             "subSid":ENV.subsid,
             "presenterUid": ENV.presenterUid,
