@@ -22,6 +22,7 @@ export function getSubscribeStatus(from_key, to_key) {
 //订阅
 export function subscribe(n, t, cookieVal) {
 	let url = "https://subapi.huya.com/user/subscribe?from=act&source=web&pid=" + n + "&uid=" + t+'&type=Subscribe&_=' + Date.now();
+	console.log(url)
 	return request({
 		url,
 		headers: {

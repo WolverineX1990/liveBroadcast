@@ -203,7 +203,6 @@ export default class HuyaIns {
         this.userId.sCookie = this.cookies.value;
         this.userId.sGuid = this.cookies.getCookie('guid');
         this.userId.lUid = parseInt(this.cookies.getCookie("yyuid")) || parseInt(this.cookies.getCookie("udb_uid")) || 0;
-        ENV.yyuid = this.userId.lUid;
         this.vcore.dispatch('USER_LOGINED');
         return;
       }
@@ -217,7 +216,6 @@ export default class HuyaIns {
                 ENV.isLogin = true;
                 this.cookies.concat(res.cookies.headers['set-cookie']);
                 this.userId.sCookie = this.cookies.value;
-                ENV.yyuid = this.userId.lUid;
                 this.userId.lUid = parseInt(this.cookies.getCookie("yyuid")) || parseInt(this.cookies.getCookie("udb_uid")) || 0;
                 this.vcore.dispatch('USER_LOGINED');
               } else if (data.returnCode === 10030) {
@@ -227,6 +225,7 @@ export default class HuyaIns {
                   console.log('verifyiIgCaptcha success');
                   this.userLogin();
                 }, () => {
+                  console.log('errr=================')
                   let phoneVer = new VerifyiIgPhoneCode(this._userName, () => {
 
                   });

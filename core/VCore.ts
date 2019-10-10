@@ -162,7 +162,7 @@ export default class VCore {
     }
     
     var t = new HUYA.WSVerifyCookieReq;
-    t.lUid = ENV.yyuid;
+    t.lUid =this.userId.lUid;;
     t.sUA = this.userId.sHuYaUA;
     t.sCookie = this.userId.sCookie;
     t.sGuid = this.userId.sGuid;

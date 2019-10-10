@@ -105,7 +105,7 @@ export default class MessageManager {
 
     sendWebdbUserInfo (username) {
         var t = new HUYA.GetWebdbUserInfoReq;
-        t.lUid = ENV.yyuid;
+        t.lUid = this._userId.lUid;;
         t.lImid = 0;
         t.sPassport = username;
         t.sAccount = 0;
