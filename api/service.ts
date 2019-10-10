@@ -12,10 +12,20 @@ export function getRoomHtml(url) {
 	return request(options)
 }
 
-export function subscribe(n, t) {
-	let url = "https://subapi.huya.com/user/subscribe?from=act&source=web&pid=" + n + "&uid=" + t;
+export function getSubscribeStatus(from_key, to_key) {
+	let url = CONFIG.apiHost + `subscribe/getSubscribeStatus?from_key=${from_key}&from_type=1&to_key=${to_key}&to_type=2`;
 	return request({
 		url,
+	});
+}
+
+export function subscribe(n, t, cookieVal) {
+	let url = "https://subapi.huya.com/user/subscribe?from=act&source=web&pid=" + n + "&uid=" + t+'&type=Subscribe&_=' + Date.now();
+	return request({
+		url,
+		headers: {
+			cookie: cookieVal
+		},
 	});
 }
 

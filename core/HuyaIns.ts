@@ -1,4 +1,4 @@
-import { passwordLogin, checkLogin, logout, subscribe } from './../api/service';
+import { passwordLogin, checkLogin, logout, subscribe, getSubscribeStatus } from './../api/service';
 import Cookies from './../core/Cookies';
 import VCore from './../core/VCore';
 import MessageManger from './../core/MessageManger';
@@ -74,6 +74,7 @@ export default class HuyaIns {
       this.mesMg.getAuditorRole();
       this.mesMg.getUserSetting();
       this.sendMessage();
+      this.subscribe();
     });
     this.vcore.addListener('getUserLevelInfo', (e) => {
       // console.log(e);
@@ -174,7 +175,14 @@ export default class HuyaIns {
 
   // 订阅
   subscribe() {
-    subscribe(ENV.presenterUid, ENV.yyuid);
+    getSubscribeStatus(ENV.yyuid, ENV.presenterUid).then(res => {
+      let data = JSON.parse(res);
+      if (!data.status) {
+        subscribe(ENV.presenterUid, ENV.yyuid, this.cookies.value).then(res => {
+          console.log(res);
+        })
+      }
+    })
   }
 
   userLogin() {
