@@ -108,7 +108,7 @@ export function passwordLogin(data) {
 }
 
 export function verifyiIgCaptcha(data) {
-	console.log(data)
+	// console.log(data)
 	let options = {
     url: 'https://udbsec.huya.com/auth/imgCaptcha/verify',//请求路径
 		method: "POST",//请求方式，默认为get

@@ -135,7 +135,6 @@ export default class MessageManager {
         this._vcore.sendWup2("onlineui", "OnUserEvent", t, (data) => {
             // G.userIn = true;
             // console.log('USER_IN')
-            // console.log(data)
             this._vcore.dispatch('USER_IN');
             // G.userInTime = Date.now() - G.userInTime;
             var e = data.iUserHeartBeatInterval * 1e3;
@@ -221,8 +220,6 @@ export default class MessageManager {
         t.lSid = 0;//ENV.subsid;
         t.sContent = 'llll';
         // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
-        console.log('###########################');
-        console.log(t)
         this._vcore.sendWup("liveui", "sendMessage", t);
     }
 

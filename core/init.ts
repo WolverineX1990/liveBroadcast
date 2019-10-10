@@ -26,7 +26,6 @@ export function initConfig(roomId, func) {
     ENV.roomState = TT_ROOM_DATA.state;
     ENV.presenterUid = TT_PROFILE_INFO.lp;
     ENV.pyyid = TT_PROFILE_INFO.yyid;
-    ENV.yyuid = TT_PROFILE_INFO.lp;
     ENV.topsid = TT_PROFILE_INFO.lp;
     ENV.subsid = TT_PROFILE_INFO.lp;
     func()
