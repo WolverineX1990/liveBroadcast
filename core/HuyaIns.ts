@@ -37,6 +37,10 @@ export default class HuyaIns {
 
   startConnect() {
     this.vcore.addListener("USER_LOGINED", () => {
+      var t = "vplayer_sbanner_" + ENV.topsid + "_" + ENV.subsid;
+      if (!this.cookies.getCookie(t)) {
+        this.cookies.add(t+'=1; ');
+      }
       this.initWssHost()
         .then(() => this.addListener())
         .then(() => this.vcore.wsStart())
@@ -209,10 +213,6 @@ export default class HuyaIns {
             .then((res) => {
               //biztoken uid sign
               let data = JSON.parse(res.data);
-              var t = "vplayer_sbanner_" + ENV.topsid + "_" + ENV.subsid;
-              if (!this.cookies.getCookie(t)) {
-                this.cookies.add(t+'=1; ');
-              }
               if (!data.returnCode) {
                 ENV.isLogin = true;
                 this.cookies.concat(res.cookies.headers['set-cookie']);
