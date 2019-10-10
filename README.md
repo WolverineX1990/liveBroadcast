@@ -9,7 +9,9 @@ BeginLiveNotice
 
 GetCurCheckRoomStatus
 
-getUserSetting
+
+//重要
+GetCdnTokenExRsp
 
 
 

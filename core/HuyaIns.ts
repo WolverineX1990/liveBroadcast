@@ -116,7 +116,7 @@ export default class HuyaIns {
 
   pingInter
   wssConnected() {
-    this.mesMg.sendLivingInfoReq();
+    this.mesMg.sendLivingInfoReq(() => this.fetchVideo());
     this.mesMg.sendGetPresenterLiveScheduleInfoReq();
     this.mesMg.sendDoLaunch();
     this.mesMg.sendPingReq();
@@ -128,6 +128,11 @@ export default class HuyaIns {
     };
     this.pingInter = setInterval(this.ping.bind(this), 10, config);
     setInterval(this.reportDetailV2.bind(this), 2e4);
+  }
+
+  fetchVideo() {
+    //如果正在播放
+    ENV.flv + "&u=" + rouUid(this.userId.lUid || 0, ENV.presenterUid || 0) + "&t=100&sv=1910091800";
   }
 
   wssRegisterRsp (t) {
@@ -265,4 +270,11 @@ export default class HuyaIns {
       return this.vcore.initWssHost();
     });
   }
+}
+
+function rouUid (t, i) {
+  return 0 === t && (t = "1234" + e.turnStr(parseInt(9999 * Math.random()), 10, 4)),
+  t = parseFloat(t),
+  i = parseFloat(i),
+  e.rotl64(t ^ i, 8) + i % 256
 }

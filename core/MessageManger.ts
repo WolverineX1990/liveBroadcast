@@ -26,7 +26,7 @@ export default class MessageManager {
         return this._userId;
     }
 
-    sendLivingInfoReq() {
+    sendLivingInfoReq(fun) {
         console.log('sendLivingInfoReq');
         var i = new HUYA.GetLivingInfoReq();
         i.tId = this._userId;
@@ -35,9 +35,7 @@ export default class MessageManager {
         i.lPresenterUid = ENV.presenterUid;
         i.sTraceSource = null;
         i.sPassword = ENV.roomPayPassword;
-        this._vcore.sendWup2('liveui', 'getLivingInfo', i, function(t) {
-            // console.log(t);
-        });
+        this._vcore.sendWup2('liveui', 'getLivingInfo', i, fun);
     }
 
     sendPropsUIServer() {
@@ -218,7 +216,6 @@ export default class MessageManager {
         t.lPid = ENV.presenterUid;
         t.lTid = ENV.id;
         t.lSid = ENV.sid;
-        t.sContent = 'llll';
         // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
         talkrandom().then(res => {
             t.sContent = JSON.parse(res).msg;
@@ -316,6 +313,10 @@ export default class MessageManager {
         });
     }
 
+    GetCdnTokenExRsp() {
+
+    }
+
     getUserLevelInfo() {
         var a = new HUYA.GetUserLevelInfoReq;
         a.tId = this._userId,
@@ -344,5 +345,19 @@ export default class MessageManager {
         this._vcore.sendWup2("liveui", "getAuditorRole", n, (e) => {
             // console.log(e)
         });
+    }
+
+    GetCdnTokenExRsp () {
+        var e = new HUYA.GetCdnTokenExReq;
+            e.sFlvUrl = G.streamInfo.sFlvUrl;
+            e.sStreamName = G.streamInfo.sStreamName;
+            var i = parseInt(Math.random() * 1e4);
+            if (t) {
+                e.sStreamName += "_audio";
+                b["tokenflac"] = i
+            } else {
+                b["token"] = i
+            }
+            u.sendWup2("liveui", "getCdnTokenInfoEx", e, k, null, i)
     }
 }
