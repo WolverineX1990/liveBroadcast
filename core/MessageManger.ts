@@ -155,7 +155,7 @@ export default class MessageManager {
         e.lSid = ENV.subsid;
         e.lShortTid = 0;
         e.lPid = ENV.presenterUid;
-        // e.bWatchVideo = ENV.hasVideo;
+        e.bWatchVideo = true;
         // e.eLineType = G.videoLine;
         // e.iFps = G.livingInfo ? G.livingInfo.tStreamSettingNotice.iFrameRate : 0;
         // e.iAttendee = G.iAttendeeCount;
@@ -165,7 +165,6 @@ export default class MessageManager {
         let m = 0;
         this._vcore.sendWup2("onlineui", "OnUserHeartBeat", e, (data) => {
             var e = data.iRet;
-            // console.log(e)
             var i = (new Date).getTime();
             I = i - w
         }, true, ++m);
@@ -216,10 +215,11 @@ export default class MessageManager {
         var t = new HUYA.SendMessageReq;
         t.tUserId = this._userId;
         t.lPid = ENV.presenterUid;
-        t.lTid = 0;//ENV.topsid;
-        t.lSid = 0;//ENV.subsid;
+        t.lTid = ENV.id;
+        t.lSid = ENV.sid;
         t.sContent = 'llll';
         // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
+        
         this._vcore.sendWup("liveui", "sendMessage", t);
     }
 

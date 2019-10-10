@@ -28,6 +28,8 @@ export function initConfig(roomId, func) {
     ENV.pyyid = TT_PROFILE_INFO.yyid;
     ENV.topsid = TT_PROFILE_INFO.lp;
     ENV.subsid = TT_PROFILE_INFO.lp;
+    ENV.id = TT_ROOM_DATA.id;
+    ENV.sid = TT_ROOM_DATA.sid;
     func()
   });
 }
