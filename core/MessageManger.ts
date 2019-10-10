@@ -1,5 +1,6 @@
 import HUYA from './../core/HUYAEXT';
 import ENV from './../const/ENV';
+import { talkrandom } from './../api/service';
 
 export default class MessageManager {
     _vcore
@@ -219,8 +220,10 @@ export default class MessageManager {
         t.lSid = ENV.sid;
         t.sContent = 'llll';
         // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
-        
-        this._vcore.sendWup("liveui", "sendMessage", t);
+        talkrandom().then(res => {
+            t.sContent = JSON.parse(res).msg;
+            this._vcore.sendWup("liveui", "sendMessage", t);
+        });
     }
 
     uuid = 0

@@ -19,6 +19,7 @@ export function getSubscribeStatus(from_key, to_key) {
 	});
 }
 
+//订阅
 export function subscribe(n, t, cookieVal) {
 	let url = "https://subapi.huya.com/user/subscribe?from=act&source=web&pid=" + n + "&uid=" + t+'&type=Subscribe&_=' + Date.now();
 	return request({
@@ -66,6 +67,12 @@ export function checkLogin(cookie) {
 export function getCodeByPicId (data) {
 	return request({
 		url: 'http://test.hisway365.com:8098/fileController/getcodebypicid?' + stringify(data),
+	});
+}
+
+export function talkrandom() {
+	return request({
+		url: 'http://test.hisway365.com:8098/talkController/talkrandom'
 	});
 }
 
@@ -141,5 +148,3 @@ export function getImgCaptcha(data) {
 	};
 	return request(options);
 }
-
-// http://test.hisway365.com:8098/talkController/talkrandom
