@@ -12,6 +12,13 @@ export function getRoomHtml(url) {
 	return request(options)
 }
 
+export function subscribe(n, t) {
+	let url = "https://subapi.huya.com/user/subscribe?from=act&source=web&pid=" + n + "&uid=" + t;
+	return request({
+		url,
+	});
+}
+
 export function reportDetail(data) {
 	let options = {
 		url: 'https://statwup.huya.com/?timestamp='+(new Date).getTime(),
@@ -37,7 +44,7 @@ export function getWssHosts(data, cookieVal) {
     body: toBuffer(data)
 	};
 
-	return request(options).then(res => toArrayBuffer(res))
+	return request(options).then(res => toArrayBuffer(res));
 }
 
 export function checkLogin(cookie) {

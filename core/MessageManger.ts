@@ -216,13 +216,13 @@ export default class MessageManager {
     sendMessage() {
         var t = new HUYA.SendMessageReq;
         t.tUserId = this._userId;
-        t.lTid = ENV.topsid;
-        t.lSid = ENV.subsid;
         t.lPid = ENV.presenterUid;
+        t.lTid = 0;//ENV.topsid;
+        t.lSid = 0;//ENV.subsid;
         t.sContent = 'llll';
         // t.tBulletFormat = $.extend(t.tBulletFormat || {}, y);
-        // console.log('###########################');
-        // console.log(t)
+        console.log('###########################');
+        console.log(t)
         this._vcore.sendWup("liveui", "sendMessage", t);
     }
 
@@ -240,7 +240,7 @@ export default class MessageManager {
             "sid": ENV.topsid,
             "subSid":ENV.subsid,
             "presenterUid": ENV.presenterUid,
-            "url":"https://al.flv.huya.com/huyalive/1199521503354-1199521503354-5264031189219409920-2399043130164-10057-A-0-1.flv?wsSecret=c7ed7353471e22f62810201ff951baf3&wsTime=5d9d4bdc&fs=bgct",//flv
+            "url": ENV.flv,
             "domainList":[],
             "inited":true
         };
@@ -267,15 +267,82 @@ export default class MessageManager {
 
         });
     }
-
+    //留言板历史
     getRctTimedMessage () {
         var n = new HUYA.GetRctTimedMessageReq;
-        n.tUserId = this.userId,
+        n.tUserId = this._userId,
         n.lPid = ENV.presenterUid;
         n.lTid = ENV.topsid;
         n.lSid = ENV.subsid;
         this._vcore.sendWup2("mobileui", "getRctTimedMessage", n, function(i) {
             // console.log(i)
         })
+    }
+
+
+    getBadgeItem () {
+        var t = new HUYA.BadgeItemReq;
+        t.tUserId = this._userId,
+        t.lPid = ENV.presenterUid,
+        this._vcore.sendWup2("liveui", "getBadgeItem", t, (e) => {
+
+        });
+    }
+
+    queryBadgeInfoList () {
+        var n = new HUYA.BadgeInfoListReq;
+        n.tUserId = this._userId,
+        this._vcore.sendWup2("liveui", "queryBadgeInfoList", n, () => {
+
+        });
+    }
+
+    sendCustomBadgeLogoReq() {
+        var t = new HUYA.CustomBadgeLogoReq;
+        t.tUserId = this._userId,
+        this._vcore.sendWup2("revenueui", "getCustomBadgeLogo", t, () => {
+
+        })
+    }
+
+    getUserSetting() {
+        var n = new HUYA.SettingFetchReq;
+        n.tId = this._userId,
+        n.vKeys.value.push('blockwords'),
+        n.vKeys.value.push('blockword4pid'),
+        this._vcore.sendWup2("liveui", "getUserSetting", n, e => {
+            // console.log('=====================')
+            // console.log(e)
+        });
+    }
+
+    getUserLevelInfo() {
+        var a = new HUYA.GetUserLevelInfoReq;
+        a.tId = this._userId,
+        this._vcore.sendWup("huyauserui", "getUserLevelInfo", a)
+    }
+
+    getDIYActivityInfo() {
+        var t = new HUYA.ActivityDIYReq;
+        t.tUserId = this._userId;
+        t.lPid = ENV.presenterUid;
+        t.lTid = ENV.topsid;
+        t.lSid = ENV.subsid;
+        // t.lRoomId = ENV.profileRoom;
+        // t.iGameId = G.gameId;
+        this._vcore.sendWup2("ActivityUIServer", "getDIYActivityInfo", t, () => {
+
+        });
+    }
+
+    getAuditorRole() {
+        var n = new HUYA.GetAuditorRoleReq;
+        n.tId = this._userId;
+        n.lPresenterUid = ENV.presenterUid;
+        n.lSid = 0;
+        n.lSubSid = 0;
+        this._vcore.sendWup2("liveui", "getAuditorRole", n, (e) => {
+            // console.log(e)
+        });
     }
 }

@@ -3,7 +3,6 @@ const HUYA = require('./../lib/HUYA');
 import Wss from './wss';
 import dataParse from './dataParse';
 import { getWssHosts } from './../api/service';
-import { toBuffer, toArrayBuffer } from './../utils/buffer';
 import ENV from '../const/ENV';
 
 export default class VCore {
@@ -17,7 +16,7 @@ export default class VCore {
 
   initWssHost() {
     let t = new HUYA.LiveLaunchReq();
-    t.tId = this.userId;
+    t.tId = this._userId;
     t.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
     t.bSupportDomain = 1;
     let wup = new Taf.Wup();
@@ -25,7 +24,6 @@ export default class VCore {
     wup.setFunc('doLaunch');
     wup.writeStruct('tReq', t);
     let buf = wup.encode().getBuffer();
-    console.log('tttt')
     return getWssHosts(buf, this.userId.sCookie).then(res => {
       var e = new HUYA.LiveLaunchRsp;
       var i = new Taf.Wup;
@@ -40,7 +38,6 @@ export default class VCore {
               break
           }
       }
-      console.log(this.hosts)
       this.wss = new Wss(this.hosts[2]);
     });
   }
@@ -179,7 +176,6 @@ export default class VCore {
     i.vData = e.getBinBuffer();
     e = new Taf.JceOutputStream;
     i.writeTo(e);
-    console.log('@@@@@@@@@@@@@@@@@@@@@@WSVerifyCookieReq')
     this.wss.sendBuf(e.getBuffer());
   }
 

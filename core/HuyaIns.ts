@@ -1,4 +1,4 @@
-import { passwordLogin, checkLogin, logout } from './../api/service';
+import { passwordLogin, checkLogin, logout, subscribe } from './../api/service';
 import Cookies from './../core/Cookies';
 import VCore from './../core/VCore';
 import MessageManger from './../core/MessageManger';
@@ -56,18 +56,27 @@ export default class HuyaIns {
   addListener() {
     this.vcore.addListener('setGuid', (guid) =>{
       if (!this.cookies.getCookie('guid')) {
-        this.cookies.add('guid='+guid);  
+        this.cookies.add('guid='+guid);
+        this.userId.sCookie = this.cookies.value;
       }
-      this.userId.sCookie = this.cookies.value;
 
       //开始拉取视频
-      this.mesMg.getLivingStreamInfo();
+      // this.mesMg.getLivingStreamInfo();
     });
 
     this.vcore.addListener('gamelivePubTextInitComplete', () => {
       this.mesMg.getRMessageListWb();
       this.mesMg.getRctTimedMessage();
+      this.mesMg.queryBadgeInfoList();
+      this.mesMg.getBadgeItem();
+      this.mesMg.sendCustomBadgeLogoReq();
+      this.mesMg.getUserLevelInfo();
+      this.mesMg.getAuditorRole();
+      this.mesMg.getUserSetting();
       this.sendMessage();
+    });
+    this.vcore.addListener('getUserLevelInfo', (e) => {
+      // console.log(e);
     })
     this.vcore.addListener("WEBSOCKET_CONNECTED", this.wssConnected.bind(this));
     this.vcore.addListener("WSRegisterRsp", this.wssRegisterRsp.bind(this));
@@ -102,18 +111,19 @@ export default class HuyaIns {
 
   pingInter
   wssConnected() {
-    this.mesMg.sendLivingInfoReq();
-    this.mesMg.sendGetPresenterLiveScheduleInfoReq();
-    this.mesMg.sendDoLaunch();
-    this.mesMg.sendPingReq();
-    this.mesMg.sendPropsUIServer();
-    let config = {
-      tickCount: 0,
-      interval: 1000,
-      times: 0
-    };
-    this.pingInter = setInterval(this.ping.bind(this), 10, config);
-    setInterval(this.reportDetailV2.bind(this), 2e4)
+    this.sendMessage();
+    // this.mesMg.sendLivingInfoReq();
+    // this.mesMg.sendGetPresenterLiveScheduleInfoReq();
+    // this.mesMg.sendDoLaunch();
+    // this.mesMg.sendPingReq();
+    // this.mesMg.sendPropsUIServer();
+    // let config = {
+    //   tickCount: 0,
+    //   interval: 1000,
+    //   times: 0
+    // };
+    // this.pingInter = setInterval(this.ping.bind(this), 10, config);
+    // setInterval(this.reportDetailV2.bind(this), 2e4);
   }
 
   wssRegisterRsp (t) {
@@ -163,6 +173,11 @@ export default class HuyaIns {
               .then(res => console.log(res));
   }
 
+  // 订阅
+  subscribe() {
+    subscribe(ENV.presenterUid, ENV.yyuid);
+  }
+
   userLogin() {
     let userId = this.userId = new HUYA.UserId();
     userId.lUid = 0;
@@ -174,8 +189,11 @@ export default class HuyaIns {
       if (this.cookies.isLogin) {
         //从本地cookie读取
         ENV.isLogin = true;
-        this.userId.sCookie = this.cookies.value;
-        this.userId.sGuid = this.cookies.getCookie('guid');
+        // this.userId.sCookie = this.cookies.value;
+        // this.userId.sGuid = this.cookies.getCookie('guid');
+        // this.userId.sCookie = 'vplayer_sbanner_1199521503354_1199521503354=1; sdid=; alphaValue=0.80; SoundValue=0.50; __yamid_tt1=0.6296102326560773; __yamid_new=C8A0E90251000001AE7D47E91AD06920; isInLiveRoom=true; guid=0acf6cbdc7a79d5de2425cb25db26816; udb_guiddata=ddc52d0eeeb5478e8df8875ab4fdb91f; __yasmid=0.6296102326560773; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1570445400,1570503272,1570606785,1570673628; udb_passdata=3; h_unt=1570692733; __yaoldyyuid=; _yasids=__rootsid%3DC8A1D77E80E000018D2016F0944113DE; PHPSESSID=r6dom8f32mmqec818rko0bgm11; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1570695876; udb_biztoken=AQBAIQ6nZPP5jPQ9bX-3uyiRn4llfEHO3-2aLRi16wt68CnmFRMvrFBk3J4BSbPuKJ8UYXIewiSfQV76bUdxarX7DrXRMaU1ORDuSQKiTLlyRR7xolt400Cz6JiXiBdlwE3a7_XXC17gRV24styL68G0p8nlwWT67iUNTIlkn-fAqu97xo9v6ZMOjkltS_YftaSD1ZrykjmHlnAypcA2Ylx0ijnY6rBS-O5uDnrkNuHE4GloUYqGJw_0sov0fgHmFfag7fKKiMDp63fc7fxqNBB0OMw5uTiVwDDHmiTK1Y6A_EqmlkzxcbCE_YSYmjDOaQw52ls88Zc_d7SjXTdXidbY; udb_origin=1; udb_other=%7B%22lt%22%3A%221570695934132%22%2C%22isRem%22%3A%221%22%7D; udb_passport=35184375637612hy; udb_status=1; udb_uid=1199512024650; udb_version=1.0; username=35184375637612hy; yyuid=1199512024650; udb_accdata=17701342615"';
+        this.userId.sCookie = 'vplayer_sbanner_1199521503354_1199521503354=1; sdid=; alphaValue=0.80; SoundValue=0.50; __yamid_tt1=0.6296102326560773; __yamid_new=C8A0E90251000001AE7D47E91AD06920; isInLiveRoom=true; guid=0acf6cbdc7a79d5de2425cb25db26816; udb_guiddata=ddc52d0eeeb5478e8df8875ab4fdb91f; __yasmid=0.6296102326560773; Hm_lvt_51700b6c722f5bb4cf39906a596ea41f=1570445400,1570503272,1570606785,1570673628; udb_passdata=3; PHPSESSID=o4vujmihilamng99b6rueo7ps4; udb_biztoken=AQAp99n5egv5YXp7xaMec5PqoD7s1BDpvjrTeD_ejnTVaVn7caudUqiJYhcJTZKcLBT_o2UhLue63yVF82UPKketlF5O3dcfebnTEaAxCRRpLidhiA3URCc175jtkZ-xVBaVO8wuSppJ53apLkIqaI07XcWr6HuJqXCW4wyRUtHCRt9Us5jV9FutE8jfvyoPPsj6gO-4hhgrYtqltbjCT9r49yHVPPEUL9VJu7oM2boyDAcr8M3UU_mvqdZNH1euNfRTkUcaLvei1nJWa5gNQrsH1orJXvPSTHEuLeB_Of5EnWeUKQzt2wqOp-jj8exx7cxK0JUdoy1xkZ9zGvfCZvu7; udb_origin=1; udb_other=%7B%22lt%22%3A%221570696979297%22%2C%22isRem%22%3A%221%22%7D; udb_passport=35184375637612hy; udb_status=1; udb_uid=1199512024650; udb_version=1.0; username=35184375637612hy; yyuid=1199512024650; udb_accdata=17701342615; h_unt=1570696980; __yaoldyyuid=1199512024650; _yasids=__rootsid%3DC8A1D88CB570000121341070FF529710; Hm_lpvt_51700b6c722f5bb4cf39906a596ea41f=1570696981';
+        this.userId.sGuid = "0acf6cbdc7a79d5de2425cb25db26816";
         this.userId.lUid = parseInt(this.cookies.getCookie("yyuid")) || parseInt(this.cookies.getCookie("udb_uid")) || 0;
         this.vcore.dispatch('USER_LOGINED');
         return;
@@ -220,12 +238,11 @@ export default class HuyaIns {
   }
 
   sendMessage() {
-    // let time = 3 * 60 + Math.round(Math.random()* 2 * 60 );
     let time = 5 + Math.round(Math.random() * 6 );
     setTimeout(() => {
       this.mesMg.sendMessage();
       console.log('发送弹幕');
-      this.sendMessage();
+      // this.sendMessage();
     }, 1000 * time);
   }
 
@@ -238,8 +255,8 @@ export default class HuyaIns {
       
       if (res.cookie) {
         this.cookies.concat(res.cookie);
+        this.userId.sCookie = this.cookies.value;
       }
-      this.userId.sCookie = this.cookies.value;
       return this.vcore.initWssHost();
     });
   }

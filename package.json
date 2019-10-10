@@ -5,6 +5,7 @@
   "main": "app.ts",
   "dependencies": {
     "request": "^2.88.0",
+    "test": "^0.6.0",
     "ws": "^7.1.2"
   },
   "devDependencies": {

@@ -275,4 +275,97 @@ HUYA.LimitedStreamInfo.prototype.readFrom = function(e) {
   this.lFreeFlag = e.readInt64(24, !1, this.lFreeFlag)
 }
 
+HUYA.FaithBadgeItem = function() {
+  this.sObtainWay = "";
+  this.sFaithName = "";
+  this.sFaithContent = "";
+  this.vFaithPic = new Taf.Vector(new Taf.STRING);
+  this.sActionName = "";
+  this.sActionUrl = ""
+}
+
+HUYA.FaithBadgeItem.prototype._clone = function() {
+  return new HUYA.FaithBadgeItem
+}
+
+HUYA.FaithBadgeItem.prototype._write = function(t, e, i) {
+  t.writeStruct(e, i)
+}
+
+HUYA.FaithBadgeItem.prototype._read = function(t, e, i) {
+  return t.readStruct(e, true, i)
+}
+
+HUYA.FaithBadgeItem.prototype.writeTo = function(t) {
+  t.writeString(0, this.sObtainWay);
+  t.writeString(1, this.sFaithName);
+  t.writeString(2, this.sFaithContent);
+  t.writeVector(3, this.vFaithPic);
+  t.writeString(4, this.sActionName);
+  t.writeString(5, this.sActionUrl)
+}
+
+HUYA.FaithBadgeItem.prototype.readFrom = function(t) {
+  this.sObtainWay = t.readString(0, false, this.sObtainWay);
+  this.sFaithName = t.readString(1, false, this.sFaithName);
+  this.sFaithContent = t.readString(2, false, this.sFaithContent);
+  this.vFaithPic = t.readVector(3, false, this.vFaithPic);
+  this.sActionName = t.readString(4, false, this.sActionName);
+  this.sActionUrl = t.readString(5, false, this.sActionUrl)
+}
+
+HUYA.FaithInfo = function() {
+  this.sFaithName = "";
+  this.vPresenter = new Taf.Vector(new HUYA.FaithPresenter)
+}
+
+HUYA.FaithInfo.prototype._clone = function() {
+  return new HUYA.FaithInfo
+}
+
+HUYA.FaithInfo.prototype._write = function(t, e, i) {
+  t.writeStruct(e, i)
+}
+
+HUYA.FaithInfo.prototype._read = function(t, e, i) {
+  return t.readStruct(e, true, i)
+}
+
+HUYA.FaithInfo.prototype.writeTo = function(t) {
+  t.writeString(0, this.sFaithName);
+  t.writeVector(1, this.vPresenter)
+}
+
+HUYA.FaithInfo.prototype.readFrom = function(t) {
+  this.sFaithName = t.readString(0, false, this.sFaithName);
+  this.vPresenter = t.readVector(1, false, this.vPresenter)
+}
+
+HUYA.FaithPresenter = function() {
+  this.lPid = 0;
+  this.sLogo = ""
+}
+
+HUYA.FaithPresenter.prototype._clone = function() {
+  return new HUYA.FaithPresenter
+}
+
+HUYA.FaithPresenter.prototype._write = function(t, e, i) {
+  t.writeStruct(e, i)
+}
+
+HUYA.FaithPresenter.prototype._read = function(t, e, i) {
+  return t.readStruct(e, true, i)
+}
+
+HUYA.FaithPresenter.prototype.writeTo = function(t) {
+  t.writeInt64(0, this.lPid);
+  t.writeString(1, this.sLogo)
+}
+
+HUYA.FaithPresenter.prototype.readFrom = function(t) {
+  this.lPid = t.readInt64(0, false, this.lPid);
+  this.sLogo = t.readString(1, false, this.sLogo)
+}
+
 export default HUYA;

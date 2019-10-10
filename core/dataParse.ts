@@ -108,10 +108,7 @@ export default function dataParse (e, vcore) {
             // if (!U) {
             //     G.vplayerUI.trigger("verifyCookieFail")
             // }
-            // logUtils.addLog("VerifyCookie校验" + (U ? "通过！" : "失败！"));
-            // if (o) {
-            //     console.log("%c<<<<<<< %cVerifyCookie", "校验" + (U ? "通过！" : "失败！"), g)
-            // }
+            console.log("VerifyCookie校验" + (U ? "通过！" : "失败！"));
             break;
         case HUYA.EWebSocketCommandType.EWSCmdS2C_MsgPushReq_V2:
             i = new Taf.JceInputStream(r.vData.buffer);
