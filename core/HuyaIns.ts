@@ -10,6 +10,7 @@ import VerifyiIgPhoneCode from './VerifyiIgPhoneCode';
 import ReportDetail from './../core/ReportDetail';
 import ENV from './../const/ENV';
 import { guid } from './../utils';
+import * as fetch from 'node-fetch';
 
 export default class HuyaIns {
   _roomId
@@ -132,7 +133,17 @@ export default class HuyaIns {
 
   fetchVideo() {
     //如果正在播放
-    ENV.flv + "&u=" + rouUid(this.userId.lUid || 0, ENV.presenterUid || 0) + "&t=100&sv=1910091800";
+    let url = ENV.flv + "&u=" + rouUid(this.userId.lUid || 0, ENV.presenterUid || 0) + "&t=100&sv=1910091800";
+    console.log(url)
+    fetch(url, {}).then(res => {
+      console.log('视频拉取:'+res.status);
+      // console.log(res.body.read())
+      // let e = res.body.getReader();
+      // e.read().then(res => {
+      //   console.log(1);
+      // })
+      return res.json();
+    }).then(res => console.log(1));
   }
 
   wssRegisterRsp (t) {
@@ -248,7 +259,7 @@ export default class HuyaIns {
   }
 
   sendMessage() {
-    let time = 5 + Math.round(Math.random() * 6 );
+    let time = 10 + Math.round(Math.random() * 6 );
     setTimeout(() => {
       this.mesMg.sendMessage();
       console.log('发送弹幕');
@@ -273,8 +284,20 @@ export default class HuyaIns {
 }
 
 function rouUid (t, i) {
-  return 0 === t && (t = "1234" + e.turnStr(parseInt(9999 * Math.random()), 10, 4)),
+  return 0 === t && (t = "1234" + turnStr(Math.floor(9999 * Math.random()), 10, 4)),
   t = parseFloat(t),
   i = parseFloat(i),
-  e.rotl64(t ^ i, 8) + i % 256
+  rotl64(t ^ i, 8) + i % 256
+}
+
+function rotl64(t, i) {
+  var s = turnStr(t, 2, 64)
+    , a = s.substr(i, 64 - i) + s.substr(0, i);
+  return parseInt(a, 2)
+}
+
+function turnStr(e, t, i) {
+  for (var s = e.toString(t), a = s.length; a < i; a++)
+      s = "0" + s;
+  return s
 }

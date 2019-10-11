@@ -20,6 +20,7 @@ export function initConfig(roomId, func) {
       ENV.sStreamName = b.sStreamName;
       ENV.videoLine = b.iLineIndex;
       ENV.flv =  b.sFlvUrl.replace('http', 'https') + '/' + b.sStreamName + '.flv?' + b.sFlvAntiCode.replace(/&amp;/g, "&");
+      console.log(ENV)
     }
 
     ENV.playerVer = TT_PLAYER_CFG.h5PlayerIncludeSDK

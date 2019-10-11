@@ -313,10 +313,6 @@ export default class MessageManager {
         });
     }
 
-    GetCdnTokenExRsp() {
-
-    }
-
     getUserLevelInfo() {
         var a = new HUYA.GetUserLevelInfoReq;
         a.tId = this._userId,
@@ -348,16 +344,16 @@ export default class MessageManager {
     }
 
     GetCdnTokenExRsp () {
-        var e = new HUYA.GetCdnTokenExReq;
-            e.sFlvUrl = G.streamInfo.sFlvUrl;
-            e.sStreamName = G.streamInfo.sStreamName;
-            var i = parseInt(Math.random() * 1e4);
-            if (t) {
-                e.sStreamName += "_audio";
-                b["tokenflac"] = i
-            } else {
-                b["token"] = i
-            }
-            u.sendWup2("liveui", "getCdnTokenInfoEx", e, k, null, i)
+        // var e = new HUYA.GetCdnTokenExReq;
+        // e.sFlvUrl = G.streamInfo.sFlvUrl;
+        // e.sStreamName = G.streamInfo.sStreamName;
+        // var i = parseInt(Math.random() * 1e4);
+        // if (t) {
+        //     e.sStreamName += "_audio";
+        //     b["tokenflac"] = i
+        // } else {
+        //     b["token"] = i
+        // }
+        // this._vcore.sendWup2("liveui", "getCdnTokenInfoEx", e, k, null, i)
     }
 }
