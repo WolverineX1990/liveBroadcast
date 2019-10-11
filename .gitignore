@@ -4,4 +4,4 @@ npm-debug.log
 .vscode/
 .DS_Store
 dist/
-temp/
+# temp/
