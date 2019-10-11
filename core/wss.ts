@@ -10,8 +10,8 @@ export default class Wss {
 
     start (openFun, messageFun, closeFun) {
         let ws = new WebSocket(this.host, {
-            // Origin: 'https://www.huya.com',
-            // perMessageDeflate: false
+            Origin: 'https://www.huya.com',
+            perMessageDeflate: false
         });
         this.ws = ws;
         ws.on('open', function open() {
