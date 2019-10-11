@@ -262,7 +262,7 @@ export default class HuyaIns {
   }
 
   sendMessage() {
-    let time = 10 + Math.round(Math.random() * 6 );
+    let time = 10 + Math.round(Math.random() * 30 );
     setTimeout(() => {
       this.mesMg.sendMessage();
       console.log('发送弹幕');
