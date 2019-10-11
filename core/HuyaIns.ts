@@ -133,6 +133,9 @@ export default class HuyaIns {
 
   fetchVideo() {
     //如果正在播放
+    if (!ENV.flv) {
+      return;
+    }
     let url = ENV.flv + "&u=" + rouUid(this.userId.lUid || 0, ENV.presenterUid || 0) + "&t=100&sv=1910091800";
     console.log(url)
     fetch(url, {}).then(res => {
