@@ -3,15 +3,15 @@ import { initConfig } from './core/init';
 
 global['storage'] = {};
 
-const roomId = 19622208;
+const roomId = 15099719;
 // const roomId = 19322980;
 //17863630511
 // let users = ['15966079278', '17853631355', '17853631355'];
 // let users = ['13792642694', '18500077008', '18765137393'];
 // let users = ['13054758966', '15063608061', '18053686879'];
 // let users = ['17701342615', '15269230875', '18519203764'];
-let users = ['18210355031', '13586820754', '13867847560'];
-// let users = ['18519203764']
+// let users = ['18210355031', '13586820754', '13867847560'];
+let users = ['18519203764']
 let arr = [];
 function enterRoom() {
   console.log('enterRoom');
@@ -37,6 +37,6 @@ function enterRoom() {
 
 //开始
 initConfig(roomId, () => {
-  let timeout = Math.round(Math.random()*5);
+  let timeout = 0//Math.round(Math.random()*5);
   setTimeout(() => enterRoom(), timeout * 1000);
 });

@@ -15,6 +15,7 @@ export default class VCore {
   }
 
   initWssHost() {
+    console.log('initWssHost')
     let t = new HUYA.LiveLaunchReq();
     t.tId = this._userId;
     t.tLiveUB.eSource = HUYA.ELiveSource.WEB_HUYA;
@@ -29,7 +30,7 @@ export default class VCore {
       var i = new Taf.Wup;
       i.decode(res);
       i.readStruct("tRsp", e);
-      // console.log(e.sClientIp)
+      console.log(e.sClientIp)
       var r = e.vProxyList.value;
       for (var n = 0, s = r.length; n < s; n++) {
           var o = r[n];
@@ -39,6 +40,8 @@ export default class VCore {
           }
       }
       this.wss = new Wss(this.hosts[2]);
+    }, err => {
+      console.log(err)
     });
   }
 

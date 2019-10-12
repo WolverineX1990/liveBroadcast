@@ -52,7 +52,7 @@ export default class HuyaIns {
           } else {
             console.log('err->', err);
           }
-        })
+        });
     });
     
     this.userLogin();
@@ -93,7 +93,10 @@ export default class HuyaIns {
     });
 
     this.vcore.addListener("8006", t => {
-      console.log('=================count'+t.iAttendeeCount);   
+      console.log('人气数量:'+t.iAttendeeCount);
+    });
+    this.vcore.addListener("1400", t => {
+      console.log(t.tUserInfo.sNickName);
     });
     this.vcore.addListener("8102", this.livingStreamInfoNotice.bind(this));
     this.vcore.addListener("8103", this.livingStreamEndNotice.bind(this));

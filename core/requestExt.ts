@@ -1,6 +1,17 @@
 import * as http from 'request';
+// import * as util from 'util';
 
-export function request (options) {
+// let username = '';
+// let password = '';
+// let proxyIp = '223.99.214.21';
+// let proxyPort = 53281;
+
+// let proxy = util.format('http://%s:%s@%s:%d', username, password, proxyIp, proxyPort);  
+export function request (options, proxy?) {
+  if (proxy) {
+    options.proxy = proxy;
+  }
+  console.log(options)
   let promise: Promise<any> = new Promise(function(resolve, reject){
     http(options, function(error, response, body) {
 			if (error) {
@@ -12,6 +23,7 @@ export function request (options) {
             cookies: response
           });
         } else {
+          console.log(body)
           resolve(body);
         }
         

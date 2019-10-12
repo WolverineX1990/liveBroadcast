@@ -4,7 +4,7 @@ import ENV from './../const/ENV';
 
 export function initConfig(roomId, func) {
   getRoomHtml(CONFIG.host + roomId).then(html => {
-    
+    // let t = html.match(/var TT_PLAYER_CFG = (.*?);/ig);
     let TT_ROOM_DATA = getJsonByKey(html, 'TT_ROOM_DATA');
     let TT_PLAYER_CFG = getJsonByKey(html, 'TT_PLAYER_CFG');
     let TT_PROFILE_INFO = getJsonByKey(html, 'TT_PROFILE_INFO');
@@ -20,7 +20,6 @@ export function initConfig(roomId, func) {
       ENV.sStreamName = b.sStreamName;
       ENV.videoLine = b.iLineIndex;
       ENV.flv =  b.sFlvUrl.replace('http', 'https') + '/' + b.sStreamName + '.flv?' + b.sFlvAntiCode.replace(/&amp;/g, "&");
-      console.log(ENV)
     }
 
     ENV.playerVer = TT_PLAYER_CFG.h5PlayerIncludeSDK

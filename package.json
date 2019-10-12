@@ -4,9 +4,12 @@
   "description": "",
   "main": "app.ts",
   "dependencies": {
+    "https-proxy-agent": "^3.0.0",
+    "huya-lib": "^1.0.0",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
     "test": "^0.6.0",
+    "util": "^0.12.1",
     "ws": "^7.1.2"
   },
   "devDependencies": {
@@ -18,7 +21,8 @@
     "start": "ts-node app.ts",
     "server": "node server",
     "tsc": "tsc",
-    "test": "ts-node test/index.ts"
+    "test": "ts-node test/index.ts",
+    "spider": "ts-node spider/index.ts"
   },
   "author": "zcj",
   "license": "MIT"
