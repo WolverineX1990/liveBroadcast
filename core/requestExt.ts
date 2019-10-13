@@ -13,6 +13,7 @@ export function request (options, proxy?) {
   }
   let promise: Promise<any> = new Promise(function(resolve, reject){
     http(options, function(error, response, body) {
+      console.log(response.statusCode)
 			if (error) {
         reject(error)
       } else {

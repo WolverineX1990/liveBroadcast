@@ -3,36 +3,22 @@ import * as url from 'url';
 import * as events from 'events';
 
 let totalPage = 0;
-let spiderPage = 3;
-let ips =[];
+let spiderPage = 10;
 let EventEmitter = new events();
 
 function main() {
-
-  
+  let ips = [];
   let curPage = 1;
   EventEmitter.on('parseEnd', list => {
-    console.log(list)
+    ips = ips.concat(list);
     if (spiderPage > curPage) {
-      getHtml(curPage++);
+      setTimeout(() => getHtml(++curPage), 1100);
     } else {
+      console.log(ips)
       EventEmitter.removeAllListeners('parseEnd');
     }
   });
   getHtml(curPage);
-  // getHtml(1).then(ips => {
-  //   if (spiderPage > 0) {
-  //     let promiList = [];
-  //     for (let i = 2; i<=spiderPage;i++) {
-  //       let promise = getHtml(i);
-  //       promiList.push(promise)
-  //     }
-
-  //     // Promise.all(promiList).then(res => console.log(res));
-  //   } else {
-  //     console.log(ips);
-  //   }
-  // });
 }
 
 
@@ -47,7 +33,6 @@ function getHtml(curPage) {
       Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
     }
   }).then(html => {
-    console.log(1)
     if (!totalPage) {
       getPageSize(html);
       if (totalPage < spiderPage) {
@@ -56,7 +41,6 @@ function getHtml(curPage) {
     }
     
     let list = parseTable(html);
-    console.log(111)
     EventEmitter.emit('parseEnd', list);
   }, err => console.log(err));
 }
@@ -75,7 +59,7 @@ function getPageSize (html) {
 function parseTable(html) {
   let proxyList = [];
   let tableStr = html.match(/<table[^>]*>[\s\S]*?<\/table>/ig);
-  console.log(html)
+  // console.log(html)
   let rows = tableStr[0].match(/<tr[^>]*>[\s\S]*?<\/tr>/ig);
   rows.shift();
   for (let i =0;i<rows.length;i++) {
