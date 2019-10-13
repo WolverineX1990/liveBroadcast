@@ -1,42 +1,64 @@
 import { request } from './../core/requestExt';
 import * as url from 'url';
+import * as events from 'events';
 
 let totalPage = 0;
-let spiderPage = 10;
-let curPage = 2;
-let proxyList = [];
+let spiderPage = 3;
 let ips =[];
+let EventEmitter = new events();
 
 function main() {
-  getHtml().then(() => {
-    console.log(proxyList);
+
+  
+  let curPage = 1;
+  EventEmitter.on('parseEnd', list => {
+    console.log(list)
+    if (spiderPage > curPage) {
+      getHtml(curPage++);
+    } else {
+      EventEmitter.removeAllListeners('parseEnd');
+    }
   });
+  getHtml(curPage);
+  // getHtml(1).then(ips => {
+  //   if (spiderPage > 0) {
+  //     let promiList = [];
+  //     for (let i = 2; i<=spiderPage;i++) {
+  //       let promise = getHtml(i);
+  //       promiList.push(promise)
+  //     }
+
+  //     // Promise.all(promiList).then(res => console.log(res));
+  //   } else {
+  //     console.log(ips);
+  //   }
+  // });
 }
 
 
-function getHtml() {
+function getHtml(curPage) {
   let url = getPageUrl(curPage);
   console.log('开始解析页面:' + curPage);
   console.log(url)
-  return request({
-    url
+  request({
+    url,
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
+      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'
+    }
   }).then(html => {
-    // console.log('tt ' + html)
+    console.log(1)
     if (!totalPage) {
       getPageSize(html);
       if (totalPage < spiderPage) {
         spiderPage = totalPage;
       }
     }
-
     
-    parseTable(html);
-  }).then(() => {
-    if (curPage < spiderPage) {
-      curPage++;
-      getHtml();
-    }
-  });
+    let list = parseTable(html);
+    console.log(111)
+    EventEmitter.emit('parseEnd', list);
+  }, err => console.log(err));
 }
 
 function getPageSize (html) {
@@ -51,17 +73,17 @@ function getPageSize (html) {
 
 
 function parseTable(html) {
+  let proxyList = [];
   let tableStr = html.match(/<table[^>]*>[\s\S]*?<\/table>/ig);
-  // console.log(html)
+  console.log(html)
   let rows = tableStr[0].match(/<tr[^>]*>[\s\S]*?<\/tr>/ig);
   rows.shift();
   for (let i =0;i<rows.length;i++) {
     let json = paserItem(rows[i]);
-    if (ips.indexOf(json.host) === -1) {
-      ips.push(json.host);
-      proxyList.push(json);
-    }
+    proxyList.push(json);
   }
+
+  return proxyList;
 }
 
 function paserItem(tr) {

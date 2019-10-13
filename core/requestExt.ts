@@ -11,7 +11,6 @@ export function request (options, proxy?) {
   if (proxy) {
     options.proxy = proxy;
   }
-  console.log(options)
   let promise: Promise<any> = new Promise(function(resolve, reject){
     http(options, function(error, response, body) {
 			if (error) {
@@ -23,7 +22,6 @@ export function request (options, proxy?) {
             cookies: response
           });
         } else {
-          console.log(body)
           resolve(body);
         }
         
