@@ -5,6 +5,7 @@ import { talkrandom } from './../api/service';
 export default class MessageManager {
     _vcore
     _userId
+    G
     constructor (vcore?, user?) {
         this._vcore  = vcore;
         this._userId = user;
@@ -146,7 +147,8 @@ export default class MessageManager {
             }
         });
     }
-
+    I = 0
+    m = 0
     sendUserHeartBeatReq(t) {
         var e = new HUYA.UserHeartBeatReq;
         e.tId = this._userId;
@@ -155,18 +157,16 @@ export default class MessageManager {
         e.lShortTid = 0;
         e.lPid = ENV.presenterUid;
         e.bWatchVideo = true;
-        // e.eLineType = G.videoLine;
-        // e.iFps = G.livingInfo ? G.livingInfo.tStreamSettingNotice.iFrameRate : 0;
-        // e.iAttendee = G.iAttendeeCount;
-        // e.iLastHeartElapseTime = I;
+        e.eLineType = 3;//G.videoLine;
+        e.iFps = this.G.livingInfo ? this.G.livingInfo.tStreamSettingNotice.iFrameRate : 0;
+        e.iAttendee = this.G.iAttendeeCount;
+        e.iLastHeartElapseTime = this.I;
         let w = (new Date).getTime();
-        let I = 0;
-        let m = 0;
         this._vcore.sendWup2("onlineui", "OnUserHeartBeat", e, (data) => {
-            var e = data.iRet;
+            // var e = data.iRet;
             var i = (new Date).getTime();
-            I = i - w
-        }, true, ++m);
+            this.I = i - w
+        }, true, ++this.m);
     }
 
     sendNobleServer() {

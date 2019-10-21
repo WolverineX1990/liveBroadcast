@@ -1,4 +1,3 @@
-import { get } from './../core/request';
 import  { request } from './../core/requestExt';
 import  { toBuffer, toArrayBuffer } from './../utils/buffer';
 import CONFIG from './../const/CONFIG';
@@ -45,7 +44,7 @@ export function reportDetail(data) {
 	return request(options).then(res => toArrayBuffer(res))
 }
 
-export function getWssHosts(data, cookieVal) {
+export function getWssHosts(data, cookieVal, proxyIp) {
 	let options = {
 		url: CONFIG.wupHost,
 		headers: {
@@ -56,13 +55,17 @@ export function getWssHosts(data, cookieVal) {
     body: toBuffer(data)
 	};
 
-	return request(options).then(res => toArrayBuffer(res));
+	return request(options, proxyIp.replace('http://', 'http://:@')).then(res => toArrayBuffer(res));
 }
 
-export function checkLogin(cookie) {
-	return get(CONFIG.host + 'udb_web/checkLogin.php', null, {getCookie: true, headers: {
-		cookie
-	}});
+export function checkLogin(cookie, proxyIp) {
+	return request({
+		url: CONFIG.host + 'udb_web/checkLogin.php',
+		getCookie: true,
+		headers: {
+			cookie
+		}
+	}, proxyIp.replace('http://', 'http://:@'));
 }
 
 export function getCodeByPicId (data) {
@@ -111,7 +114,7 @@ export function logout(cookie, guid) {
 	});
 }
 
-export function passwordLogin(data) {
+export function passwordLogin(data, proxyIp) {
 	let options = {
 		getCookies: true,
     url: 'https://udblgn.huya.com/web/v2/passwordLogin',//请求路径
@@ -122,10 +125,10 @@ export function passwordLogin(data) {
     },
     body: data//post参数字符串
 	};
-	return request(options);
+	return request(options, proxyIp.replace('http://', 'http://:@'));
 }
 
-export function verifyiIgCaptcha(data) {
+export function verifyiIgCaptcha(data, proxyIp) {
 	// console.log(data)
 	let options = {
     url: 'https://udbsec.huya.com/auth/imgCaptcha/verify',//请求路径
@@ -135,10 +138,10 @@ export function verifyiIgCaptcha(data) {
     },
     body: data//post参数字符串
 	};
-	return request(options);
+	return request(options, proxyIp.replace('http://', 'http://:@'));
 }
 
-export function getImgCaptcha(data) {
+export function getImgCaptcha(data, proxyIp) {
 	let options = {
     url: 'https://udbsec.huya.com/auth/imgCaptcha/info',//请求路径
 		method: "POST",//请求方式，默认为get
@@ -147,5 +150,5 @@ export function getImgCaptcha(data) {
     },
     body: data//post参数字符串
 	};
-	return request(options);
+	return request(options, proxyIp.replace('http://', 'http://:@'));
 }

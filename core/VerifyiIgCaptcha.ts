@@ -7,39 +7,39 @@ export default class VerifyiIgCaptcha {
   _fun
   _fun1
   captchaID
-  constructor(info, fun, fun1) {
+  constructor(info, fun, fun1, proxyIp) {
     this._info = info;
     this._fun = fun;
     this._fun1 = fun1;
-    this.start();
+    this.start(proxyIp);
   }
 
-  getImgCaptcha() {
+  getImgCaptcha(proxyIp) {
     return getImgCaptcha(JSON.stringify({
       data: {
           urlParamMap: paseData(this._info.data)
       }
-    }));
+    }), proxyIp);
   }
 
-  start() {
+  start(proxyIp) {
     let that = this;
     this._picid = generate.generate32();
-    this.getImgCaptcha().then(res => {
+    this.getImgCaptcha(proxyIp).then(res => {
       let catImg = JSON.parse(res).data;
       this.captchaID = catImg.captchaID;
       return uploadCodeImg({ picture: 'data:image/png;base64,' + catImg.buffer, picid: that['_picid'] });
-    }).then(res => this.polling())
+    }).then(res => this.polling(proxyIp))
   }
 
-  pollSuc(captchaCode) {
+  pollSuc(captchaCode, proxyIp) {
     verifyiIgCaptcha(JSON.stringify({
       data: {
           captchaID: this.captchaID,
           captchaCode,
           urlParamMap: paseData(this._info.data)
       }
-    })).then(res => {
+    }), proxyIp).then(res => {
         let data = JSON.parse(res);
         if (!data.returnCode) {
           if (data.data.nextAction == 2) {
@@ -49,19 +49,19 @@ export default class VerifyiIgCaptcha {
             this._fun();
           }
         } else {
-          this.start();
+          this.start(proxyIp);
         }
     })
   }
 
-  polling() {
+  polling(proxyIp) {
     getCodeByPicId({picid: this._picid}).then(res => {
         let msg = JSON.parse(res).msg;
         if (!msg) {
             console.log('polling code');
-            setTimeout(() => this.polling(), 3000);
+            setTimeout(() => this.polling(proxyIp), 3000);
         } else {
-            this.pollSuc(msg)
+            this.pollSuc(msg, proxyIp)
         }
     });
 }

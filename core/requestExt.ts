@@ -9,11 +9,11 @@ import * as http from 'request';
 // let proxy = util.format('http://%s:%s@%s:%d', username, password, proxyIp, proxyPort);  
 export function request (options, proxy?) {
   if (proxy) {
+    console.log(proxy)
     options.proxy = proxy;
   }
   let promise: Promise<any> = new Promise(function(resolve, reject){
     http(options, function(error, response, body) {
-      console.log(response.statusCode)
 			if (error) {
         reject(error)
       } else {

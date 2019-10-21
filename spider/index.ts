@@ -1,5 +1,5 @@
 import { request } from './../core/requestExt';
-import * as url from 'url';
+import * as fs from 'fs';
 import * as events from 'events';
 
 let totalPage = 0;
@@ -14,13 +14,21 @@ function main() {
     if (spiderPage > curPage) {
       setTimeout(() => getHtml(++curPage), 1100);
     } else {
-      console.log(ips)
+      // save(JSON.stringify(ips));
+      checkStatus(ips);
       EventEmitter.removeAllListeners('parseEnd');
     }
   });
   getHtml(curPage);
 }
 
+function checkStatus(ips) {
+  
+}
+
+function checkIpStatus(ip) {
+  
+}
 
 function getHtml(curPage) {
   let url = getPageUrl(curPage);
@@ -84,6 +92,14 @@ function paserItem(tr) {
 
 function getPageUrl(page) {
   return`https://www.kuaidaili.com/free/inha/${page}/`;
+}
+
+function save(ips) {
+  const dir = 'const/'
+  let content = `const proxyIps = ${ips};
+
+export default proxyIps;`;
+  fs.writeFileSync(dir + 'proxyIps.ts', content);
 }
 
 //运行

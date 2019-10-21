@@ -6,17 +6,23 @@ import * as url from 'url';
 export default class Wss {
     host
     ws
-    constructor(host) {
+    agent
+    constructor(host, proxy) {
         this.host = 'wss://' + host;
+        //'http://223.99.214.21:53281'
+        if (proxy) {
+            let options: any = url.parse(proxy);
+            this.agent = new HttpsProxyAgent(options);    
+        }
+        
     }
 
     start (openFun, messageFun, closeFun) {
-        let options: any = url.parse('http://223.99.214.21:53281');
-        let agent = new HttpsProxyAgent(options);
+        
         let ws = new WebSocket(this.host, {
             Origin: 'https://www.huya.com',
             perMessageDeflate: false,
-            agent
+            agent: this.agent
         });
         this.ws = ws;
         ws.on('open', function open() {

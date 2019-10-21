@@ -14,7 +14,7 @@ export default class VCore {
     // this.wss = new Wss(hosts[2]);
   }
 
-  initWssHost() {
+  initWssHost(proxyIp) {
     console.log('initWssHost')
     let t = new HUYA.LiveLaunchReq();
     t.tId = this._userId;
@@ -25,7 +25,7 @@ export default class VCore {
     wup.setFunc('doLaunch');
     wup.writeStruct('tReq', t);
     let buf = wup.encode().getBuffer();
-    return getWssHosts(buf, this.userId.sCookie).then(res => {
+    return getWssHosts(buf, this.userId.sCookie, proxyIp).then(res => {
       var e = new HUYA.LiveLaunchRsp;
       var i = new Taf.Wup;
       i.decode(res);
@@ -39,7 +39,7 @@ export default class VCore {
               break
           }
       }
-      this.wss = new Wss(this.hosts[2]);
+      this.wss = new Wss(this.hosts[2], proxyIp);
     }, err => {
       console.log(err)
     });

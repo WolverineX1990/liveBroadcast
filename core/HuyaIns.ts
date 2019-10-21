@@ -11,6 +11,7 @@ import ReportDetail from './../core/ReportDetail';
 import ENV from './../const/ENV';
 import { guid } from './../utils';
 import * as fetch from 'node-fetch';
+import G from './G';
 
 export default class HuyaIns {
   _roomId
@@ -18,13 +19,16 @@ export default class HuyaIns {
   _pwd
   cookies
   userId
+  proxyIp=''
   vcore= new VCore()
   mesMg= new MessageManger()
+  G= new G()
   reportDetail= new ReportDetail()
   constructor (roomId , userName?, pwd?) {
     this._roomId = roomId;
     this._userName = userName;
     this._pwd = pwd;
+    this.mesMg.G = this.G;
     if (userName) {
       this.cookies = new Cookies(userName);
     } else {
@@ -34,6 +38,10 @@ export default class HuyaIns {
 
   tt () {
     // https://al.flv.huya.com/huyalive/1199521503354-1199521503354-5264031189219409920-2399043130164-10057-A-0-1.flv?wsSecret=7379c6feeb9c4fe2c3f4cd7d716e2af8&wsTime=5d99e8d7&fs=bgct&u=122&t=100&sv=1909271530
+  }
+
+  initClient() {
+
   }
 
   startConnect() {
@@ -94,6 +102,7 @@ export default class HuyaIns {
 
     this.vcore.addListener("8006", t => {
       console.log('人气数量:'+t.iAttendeeCount);
+      this.G.iAttendeeCount = t.iAttendeeCount;
     });
     this.vcore.addListener("1400", t => {
       console.log(t.tUserInfo.sNickName);
@@ -120,7 +129,14 @@ export default class HuyaIns {
 
   pingInter
   wssConnected() {
-    this.mesMg.sendLivingInfoReq(() => this.fetchVideo());
+    this.mesMg.sendLivingInfoReq(res => {
+      console.log('sendLivingInfoReq')
+      if(res.bIsLiving !=1 ) {
+        console.log('##################主播未开播##################')
+      }
+      this.G.livingInfo = res;
+      this.fetchVideo();
+    });
     this.mesMg.sendGetPresenterLiveScheduleInfoReq();
     this.mesMg.sendDoLaunch();
     this.mesMg.sendPingReq();
@@ -195,7 +211,7 @@ export default class HuyaIns {
 
   userLogout() {
     return logout(this.cookies.value, guid(1))
-              .then(() => checkLogin(this.cookies.value))
+              .then(() => checkLogin(this.cookies.value, this.proxyIp))
               .then(res => console.log(res));
   }
 
@@ -230,7 +246,7 @@ export default class HuyaIns {
       }
       userJson.data.userName = this._userName;
       userJson.data.password = sha1(this._pwd);
-      return passwordLogin(JSON.stringify(userJson))
+      return passwordLogin(JSON.stringify(userJson), this.proxyIp)
             .then((res) => {
               //biztoken uid sign
               let data = JSON.parse(res.data);
@@ -251,7 +267,7 @@ export default class HuyaIns {
                   let phoneVer = new VerifyiIgPhoneCode(this._userName, () => {
 
                   });
-                });
+                }, this.proxyIp);
               } else {
                 // || data.returnCode === 10039
                 console.log(data);
@@ -274,17 +290,18 @@ export default class HuyaIns {
   }
 
   initWssHost() {
-    return checkLogin(this.cookies.value).then(res => {
-      let json = JSON.parse(res.data);
+    return checkLogin(this.cookies.value, this.proxyIp).then(res => {
+      let json = JSON.parse(res);
       if (!json.isLogined) {
+        console.log(1);
         throw 'noLogined';
       }
       
       if (res.cookie) {
-        this.cookies.concat(res.cookie);
+        this.cookies.concat(res.cookies.headers['set-cookie']);
         this.userId.sCookie = this.cookies.value;
       }
-      return this.vcore.initWssHost();
+      return this.vcore.initWssHost(this.proxyIp);
     });
   }
 }
