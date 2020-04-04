@@ -22,7 +22,8 @@
     "server": "node server",
     "tsc": "tsc",
     "test": "ts-node test/index.ts",
-    "spider": "ts-node spider/index.ts"
+    "spider": "ts-node spider/index.ts",
+    "down": "ts-node down"
   },
   "author": "zcj",
   "license": "MIT"

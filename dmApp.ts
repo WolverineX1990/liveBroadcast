@@ -15,12 +15,10 @@ const roomId = 19622208;
 // let users = ['18519203764', '18210355031', '15966079278']
 let users = ['18519203764']
 let arr = [];
-let curId = 0;
-let allUser = 1;
 function enterRoom() {
-console.log('enterRoom');
+  console.log('enterRoom');
   let user = users.shift();
-  let demo = new HuyaIns(roomId, 1, user, 'hy'+user);
+  let demo = new HuyaIns(roomId, user, 'hy'+user);
   // let demo = new HuyaIns(roomId);
   let ip = proxyIps.shift();
   // demo.proxyIp = 'http://'+ ip.host +':' + ip.port;
@@ -30,22 +28,7 @@ console.log('enterRoom');
     let timeout = Math.round(Math.random()*5);
     setTimeout(() => enterRoom(), timeout * 1000);
   }
-  // ++curId;
-  // if (curId < allUser) {
-  //   let timeout = Math.round(Math.random()*5);
-  //   setTimeout(() => enterRoom(), timeout * 1000);
-  // }
 }
-//退出
-// process.on('SIGINT', function () {
-//   console.log('Exit now!');
-//   let prommises = [];
-//   arr.map(demo => prommises.push(demo.userLogout()))
-//   Promise.all(prommises).then(res => {
-//     console.log('Exit success!');
-//     process.exit();
-//   });
-// });
 
 //开始
 initConfig(roomId, () => {

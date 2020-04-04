@@ -1,21 +1,12 @@
-__yasmid=0.52931767005879; path=/
-__yamid_tt1=0.52931767005879; path=/
-__yamid_new=C8A4190206A00001F9CC3A7017D41C70; path=/
-_yasids=__rootsid%3DC8A4190206A000018FD07B001F302130; path=/
-isInLiveRoom=true;
-SoundValue=0.50;
-alphaValue=0.80;
-udb_passdata=3;
-udb_biztoken=AQCzVlyuKt_Lzbb4XsiTnIhyLxldT436vQtrwICp6YBmcGJgQKJ804Nses47sAFK8AeiZuc5vGFP3xHMrOLJc5hg01FVjP5po5xaJibKnWQfksM10L4ENMPbAZP0_W-hQ0NwbRseEzeD57b596zRSfEUl4OeHLNgoGB4bSPWbs-FkrujGWXPbA7EmOsIcV_KaPSly4pMUL18lgPXd3XJM-VwPMrSJkgdxQbuJINax3RxvpsFgUcLsC4_tKan7c-pL9BCy5qaFBmyA_sUH-cmdyV7AfMgmv3fkYHvIbyFUKE0MZG2LuPczmm9C14Qd4Lg7DeNECNlTt1R4uDR8X8IrOUR; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-udb_origin=1; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-udb_other=%7B%22lt%22%3A%221571301468865%22%2C%22isRem%22%3A%221%22%7D; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-udb_passport=hy_20637776; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-udb_status=1; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-udb_uid=1199521503354; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-udb_version=1.0; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-username=hy_20637776; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-yyuid=1199521503354; path=/; domain=huya.com; Max-Age=604800; Expires=Thu, 24-Oct-2019 08:37:48 GMT
-vplayer_sbanner_71786346_71786346=1; 
-guid=0acf767d5f28a85d1001763c773c55b8
-vplayer_sbanner_1279514276650_1279514276650=1; 
+udb_biztoken=AQB4BblUovi3g8lcuwwWHldWi-koxUwgn_wGPNa_XYZdOiPtFvoq7TrfSx0KQeLgwPpIq9ty7xkxH-03v32JAAkg9FKe6GI17J9bxSjjQyaCXeyVLWLoP4daXlpe0XL-pp3XGZcSObboHqx4crn2-jqroH7oGcB1agA24RoRB7FuGlOWLzMG9rVSSHeZtJfe3QlkLT2Uoxq6oMLg-Ew3BfWNi-kiVjeU0MlQLW0GBqSIw7EX8AlaSnf1BbAqMw5-ipSsr4Qx4UFcEPi999TMbyx26COs2jdKJ7DWdsK_5GrVZmMsJ3KULcWXX64TjbpbsB0BRvQC7pj0xnCs0yUm2Nh6; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+udb_origin=1; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+udb_other=%7B%22lt%22%3A%221573281383484%22%2C%22isRem%22%3A%221%22%7D; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+udb_passport=hy_20637776; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+udb_status=1; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+udb_uid=1199521503354; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+udb_version=1.0; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+username=hy_20637776; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
+yyuid=1199521503354; path=/; domain=huya.com; Max-Age=604800; Expires=Sat, 16-Nov-2019 06:36:23 GMT
 vplayer_sbanner_1199521503354_1199521503354=1; 
+guid=0acf767b755ec65d1501147915797873
+vplayer_sbanner_2195298292_2195298292=1; 

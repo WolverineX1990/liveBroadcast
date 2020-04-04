@@ -24,7 +24,7 @@ export default class HuyaIns {
   mesMg= new MessageManger()
   G= new G()
   reportDetail= new ReportDetail()
-  constructor (roomId , userName?, pwd?) {
+  constructor (roomId , roomType, userName?, pwd?) {
     this._roomId = roomId;
     this._userName = userName;
     this._pwd = pwd;
@@ -245,6 +245,7 @@ export default class HuyaIns {
         return;
       }
       userJson.data.userName = this._userName;
+      console.log(this._userName)
       userJson.data.password = sha1(this._pwd);
       return passwordLogin(JSON.stringify(userJson), this.proxyIp)
             .then((res) => {
@@ -284,7 +285,6 @@ export default class HuyaIns {
     let time = 10 + Math.round(Math.random() * 30 );
     setTimeout(() => {
       this.mesMg.sendMessage();
-      console.log('发送弹幕');
       this.sendMessage();
     }, 1000 * time);
   }
@@ -293,7 +293,6 @@ export default class HuyaIns {
     return checkLogin(this.cookies.value, this.proxyIp).then(res => {
       let json = JSON.parse(res);
       if (!json.isLogined) {
-        console.log(1);
         throw 'noLogined';
       }
       

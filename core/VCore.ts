@@ -25,6 +25,8 @@ export default class VCore {
     wup.setFunc('doLaunch');
     wup.writeStruct('tReq', t);
     let buf = wup.encode().getBuffer();
+    console.log(buf)
+    console.log(this.userId.sCookie)
     return getWssHosts(buf, this.userId.sCookie, proxyIp).then(res => {
       var e = new HUYA.LiveLaunchRsp;
       var i = new Taf.Wup;
