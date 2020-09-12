@@ -6,7 +6,7 @@
   "dependencies": {
     "https-proxy-agent": "^3.0.0",
     "huya-lib": "^1.0.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.0",
     "test": "^0.6.0",
     "util": "^0.12.1",
